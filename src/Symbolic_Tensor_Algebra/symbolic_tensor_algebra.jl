@@ -46,15 +46,24 @@ end
 end
 
 
+# I_Gate_Filler places this reserved symbol on every untouched qubit line at every
+# step (see Gates.I_Gate_Filler). ⊙ with it is always a structural no-op, so fold it
+# away at construction time instead of emitting a dead matrix multiply into the tree.
+_is_identity_filler(x) = SymbolicUtils.issym(x) && Symbolics.getname(x) === :I
+
 ⊙(x1::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}, x2::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}) = begin
+    _is_identity_filler(x1) && return x2
+    _is_identity_filler(x2) && return x1
     return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal)
 end
 
 ⊙(x1::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}, x2::Union{Symbolics.Num, Complex{Symbolics.Num}}) = begin
+    _is_identity_filler(x1) && return x2
     return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal)
 end
 
 ⊙(x1::Union{Symbolics.Num, Complex{Symbolics.Num}}, x2::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}) = begin
+    _is_identity_filler(x2) && return x1
     return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal)
 end
 
@@ -147,7 +156,13 @@ function kron_derivative(ex, v)
             push!(terms, op(args[1:(i - 1)]..., di, args[(i + 1):end]...))
         end
         #return isempty(terms) ? 0 : sum(terms)
-        return isempty(terms) ? 0 : SymbolicUtils.term(+, terms...; type=QCSym.SymbolicUtils.SymReal)
+        if isempty(terms)
+            return 0
+        elseif length(terms) == 1
+            return terms[1]
+        else
+            return SymbolicUtils.term(+, terms...; type=QCSym.SymbolicUtils.SymReal)
+        end
     elseif op === (^)
         X, n = args
         nval = const_integer(n)
