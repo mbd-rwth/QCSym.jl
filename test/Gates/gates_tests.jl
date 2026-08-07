@@ -336,9 +336,9 @@ end
             gate_params = qc.gatecollection.collections[gate][1].parameters
             λ = gate_params["λ"]["sym"]
             expected_statevec_after = [q1[1]*1.0*q2[1],
-                                       q1[1]*exp( 1im*λ)*q2[2],
+                                       q1[1]*λ*q2[2],
                                        q1[2]*1.0*q2[1],
-                                       q1[2]*exp( 1im*λ)*q2[2]]
+                                       q1[2]*λ*q2[2]]
             U = QCSym.Circuits.assemble_symbolic_unitary(qc, false, false)
             U_statevec_numeric = U * statevec.vector_numeric
             statevec_after_numeric_subsd = QCSym.Circuits.substitute_numerics_from_gates(U_statevec_numeric, qc.gatecollection.collections[gate])
