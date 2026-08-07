@@ -15,7 +15,7 @@ struct _CMSMQGate{T<:AbstractBit} <: AbstractQuantumGate{T}
 end
 
 
-struct _00_Gate{T<:AbstractBit} <: AbstractInternalSingleQubitQuantumGate{T}
+struct _00_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(_00_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -29,7 +29,7 @@ function _00_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
     return _00_Gate(base_gate)
 end
 
-struct _11_Gate{T<:AbstractBit} <: AbstractInternalSingleQubitQuantumGate{T}
+struct _11_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(_11_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -43,7 +43,7 @@ function _11_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
     return _11_Gate(base_gate)
 end
 
-struct I_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct I_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(I_Gate, mutable_BaseQuantumGate_for_construction)
 end
@@ -56,7 +56,7 @@ function I_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     return I_Gate(base_gate)
 end
 
-struct I_Gate_Filler{T<:Int} <: AbstractSingleQubitQuantumGate{T}
+struct I_Gate_Filler{T<:Int} <: AbstractSingleQubitQuantumGateNonParametric{T}
     qbit_glob_id::T
     shape::SymbolicUtils.ShapeT
     symbol::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}
@@ -75,7 +75,7 @@ Base.show(io::IO, gate::I_Gate_Filler) = begin
 end
 
 
-struct X_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct X_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(X_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -89,7 +89,7 @@ function X_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     return X_Gate(base_gate)
 end
 
-struct Y_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct Y_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(Y_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -103,7 +103,7 @@ function Y_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     return Y_Gate(base_gate)
 end
 
-struct Z_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct Z_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(Z_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -117,7 +117,7 @@ function Z_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     return Z_Gate(base_gate)
 end
 
-struct H_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct H_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(H_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -131,7 +131,7 @@ function H_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     return H_Gate(base_gate)
 end
 
-struct S_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct S_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(S_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -145,7 +145,7 @@ function S_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     return S_Gate(base_gate)
 end
 
-struct Sdg_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct Sdg_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(Sdg_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -159,7 +159,7 @@ function Sdg_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
     return Sdg_Gate(base_gate)
 end
 
-struct T_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct T_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(T_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -173,7 +173,7 @@ function T_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     return T_Gate(base_gate)
 end
 
-struct Tdg_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct Tdg_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(Tdg_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -187,7 +187,7 @@ function Tdg_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
     return Tdg_Gate(base_gate)
 end
 
-struct SX_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct SX_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(SX_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -201,7 +201,7 @@ function SX_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     return SX_Gate(base_gate)
 end
 
-struct U_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct U_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(U_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -223,7 +223,7 @@ function U_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     return U_Gate(base_gate)
 end
 
-struct GP_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct GP_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(GP_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -244,7 +244,7 @@ function GP_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     return GP_Gate(base_gate)
 end
 
-struct RX_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct RX_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(RX_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -266,7 +266,7 @@ function RX_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     return RX_Gate(base_gate)
 end
 
-struct RY_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct RY_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(RY_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -287,7 +287,7 @@ function RY_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     return RY_Gate(base_gate)
 end
 
-struct RZ_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct RZ_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(RZ_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -308,7 +308,7 @@ function RZ_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     return RZ_Gate(base_gate)
 end
 
-struct RZ_OQ3_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct RZ_OQ3_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(RZ_OQ3_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -328,7 +328,7 @@ function RZ_OQ3_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVect
     return RZ_OQ3_Gate(base_gate)
 end
 
-struct P_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct P_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(P_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -351,7 +351,7 @@ function P_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     return P_Gate(base_gate)
 end
 
-struct CX_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGate{T}
+struct CX_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(CX_Gate, mutable_BaseQuantumGate_for_construction)
 end
@@ -370,7 +370,7 @@ function CX_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     return CX_Gate(base_gate)
 end
 
-struct CY_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGate{T}
+struct CY_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(CY_Gate, mutable_BaseQuantumGate_for_construction)
 end
@@ -387,7 +387,7 @@ function CY_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     return CY_Gate(base_gate)
 end
 
-struct CZ_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGate{T}
+struct CZ_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(CZ_Gate, mutable_BaseQuantumGate_for_construction)
 end
@@ -404,7 +404,7 @@ function CZ_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     return CZ_Gate(base_gate)
 end
 
-struct CP_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct CP_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGateParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(CP_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -424,7 +424,7 @@ function CP_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     return CP_Gate(base_gate)
 end
 
-struct CRX_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct CRX_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGateParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(CRX_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -445,7 +445,7 @@ function CRX_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
     return CRX_Gate(base_gate)
 end
 
-struct CRY_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct CRY_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGateParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(CRY_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -466,7 +466,7 @@ function CRY_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
     return CRY_Gate(base_gate)
 end
 
-struct CRY_OQ3_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct CRY_OQ3_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGateParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(CRY_OQ3_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -487,7 +487,7 @@ function CRY_OQ3_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVec
     return CRY_OQ3_Gate(base_gate)
 end
 
-struct CRZ_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct CRZ_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGateParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(CRZ_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -509,7 +509,7 @@ function CRZ_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
 end
 
 
-struct CH_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct CH_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(CH_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -526,7 +526,7 @@ function CH_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     return CH_Gate(base_gate)
 end
 
-struct CU_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct CU_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGateParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(CU_Gate, mutable_BaseQuantumGate_for_construction)
     
@@ -554,7 +554,7 @@ function CU_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     return CU_Gate(base_gate)
 end
 
-struct SWAP_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGate{T}
+struct SWAP_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGateNonParametric{T}
     @insert_fields_AbstractQuantumGate()
     @constructor_from_mutable_base(SWAP_Gate, mutable_BaseQuantumGate_for_construction)
     

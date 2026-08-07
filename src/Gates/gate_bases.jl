@@ -10,11 +10,17 @@ abstract type AbstractGate end
 abstract type AbstractQuantumGate{T} <: AbstractGate end
 abstract type AbstractSingleQubitQuantumGate{T} <: AbstractQuantumGate{T} end
 abstract type AbstractMultiQubitQuantumGate{T} <: AbstractQuantumGate{T} end
-abstract type AbstractInternalSingleQubitQuantumGate{T} <: AbstractQuantumGate{T} end
+
+abstract type AbstractSingleQubitQuantumGateParametric{T} <: AbstractSingleQubitQuantumGate{T} end
+abstract type AbstractSingleQubitQuantumGateNonParametric{T} <: AbstractSingleQubitQuantumGate{T} end
+
+abstract type AbstractMultiQubitQuantumGateParametric{T} <: AbstractMultiQubitQuantumGate{T} end
+abstract type AbstractMultiQubitQuantumGateNonParametric{T} <: AbstractMultiQubitQuantumGate{T} end
+
 abstract type FillerGate end
 
-const GateDecomposition2x2Types = Dict{UInt, Vector{Type{<:AbstractGate}}}
-const GateDecomposition2x2Gates = Dict{UInt, Vector{<:AbstractGate}}
+const GateDecomposition2x2Types = Dict{UInt, Vector{Type{<:AbstractSingleQubitQuantumGate}}}
+const GateDecomposition2x2Gates = Dict{UInt, Vector{<:AbstractSingleQubitQuantumGate}}
 
 macro insert_fields_AbstractQuantumGate()
     quote
@@ -249,8 +255,7 @@ Base.show(io::IO, gate::T) where {T <: AbstractQuantumGate} = begin
 end
 
 function get_all_concrete_gates()
-    
-    return _subtypes(AbstractSingleQubitQuantumGate)
+    return _subtypes(AbstractQuantumGate)
 end
 
 

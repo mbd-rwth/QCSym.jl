@@ -21,7 +21,10 @@ end
 
 @testset verbose=true "Gates Tests" begin
     println("Running gates tests...")
-    println(QCSym.Gates.get_all_concrete_gates())
+    gate_types = QCSym.Gates.get_all_concrete_gates()
+    #gate_types = filter(t -> !startswith(string(t), "QCSym.Gates._"), gate_types)
+    #gate_types = filter(t -> !startswith(string(t), "QCSym.Gates.mutable_"), gate_types)
+    println("gate_types = ", gate_types)
     
     @testset verbose=true "gate actions on state" begin
         @testset "H gate action on 2 qubit system" begin
