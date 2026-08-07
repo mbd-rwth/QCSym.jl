@@ -346,7 +346,7 @@ function P_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     # base_gate.matrix_alt = [1.0 0.0;
     #                                0.0 cos(λ)+1im*sin(λ)]
     base_gate.matrix_alt = [1.0 0.0;
-                                   0.0 exp(1im*λ)]
+                                   0.0 λ] # cannot directly be exp(1im*λ) is not correctly identified by build_function if λ is substituted by another symbolic expression. This has to do with the handling of complex numbers in general and especially in combination with matrices.
     base_gate.is_treat_alt_only = is_treat_alt_only
     return P_Gate(base_gate)
 end
