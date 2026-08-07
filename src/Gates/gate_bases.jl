@@ -1,5 +1,6 @@
 import Symbolics
 import SymbolicUtils
+import StaticArrays
 import ..BitsRegs.AbstractBit
 import ..BitsRegs.MapBitID
 import ..BitsRegs.Bit
@@ -40,7 +41,7 @@ macro insert_fields_AbstractQuantumGate()
         #$(esc(:(matrix_alt::Union{Nothing, Matrix{Symbolics.Num}, Matrix{Complex{Symbolics.Num}}, Symbolics.Arr{Symbolics.Num,2}, SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}})))
         $(esc(:(matrix_alt::Union{Nothing, Matrix{Symbolics.Num}, Matrix{Complex{Symbolics.Num}}, Symbolics.Arr{Symbolics.Num,2}})))
         $(esc(:(ids_matrix_zeros::Union{Nothing, Array{Int, 2}})))
-        $(esc(:(matrix_numeric::Union{Nothing, Array{Complex,2}})))
+        $(esc(:(matrix_numeric::Union{Nothing, StaticArrays.SMatrix})))
         $(esc(:(matrix22_t::Union{Nothing, Dict{Int, Vector{Symbolics.Arr{Complex{Symbolics.Num},2}}}})))
         $(esc(:(matrix22_t_alt::Union{Nothing, Dict{Int, Vector{Union{Nothing, Matrix{Symbolics.Num}, Matrix{Complex{Symbolics.Num}}, Symbolics.Arr{Symbolics.Num,2}, SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}}}}})))
         $(esc(:(matrix22_c::Union{Nothing, Dict{Int, Vector{Symbolics.Arr{Complex{Symbolics.Num},2}}}})))

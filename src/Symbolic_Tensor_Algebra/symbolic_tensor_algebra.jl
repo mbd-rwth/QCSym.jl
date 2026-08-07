@@ -1,4 +1,5 @@
 import LinearAlgebra
+import StaticArrays
 
 function _promote_shape_nD(a::Symbolics.Arr{T}, b::Symbolics.Arr{T2}) where {T, T2}
     sizea = size(a)
@@ -33,8 +34,28 @@ end
     return SymbolicUtils.term(⊗, xs...; type=SymbolicUtils.SymReal)
 end
 
-⊗(xs::Vararg{AbstractArray{<:Number}}) = begin
+# LinearAlgebra.kron on StaticArrays.StaticArray operands returns another
+# StaticArray, fully unrolled at compile time. That is a big win while the
+# operands are small (single-qubit 2x2 factors), but the *output* dimension of
+# ⊗ grows with qubit count (2^n), so staying static past a handful of qubits
+# would blow up compile time and code size instead of avoiding allocations.
+# Widen any static operands back to a regular Array before kron once the
+# combined output size would exceed this bound.
+const _MAX_STATIC_KRON_DIM = 16
+
+_widen_if_static(x::StaticArrays.StaticArray) = Array(x)
+_widen_if_static(x) = x
+
+_kron_size_capped(xs::AbstractArray{<:Number}...) = begin
+    outdim = prod(size(x, 1) for x in xs)
+    if outdim > _MAX_STATIC_KRON_DIM
+        return LinearAlgebra.kron(map(_widen_if_static, xs)...)
+    end
     return LinearAlgebra.kron(xs...)
+end
+
+⊗(xs::Vararg{AbstractArray{<:Number}}) = begin
+    return _kron_size_capped(xs...)
 end
 
 ⊗(x1::Number, x2::Number) = begin
@@ -42,7 +63,7 @@ end
 end
 
 ⊗(x1::AbstractArray{<:Number}, x2::AbstractArray{<:Number}) = begin
-    return LinearAlgebra.kron(x1, x2)
+    return _kron_size_capped(x1, x2)
 end
 
 

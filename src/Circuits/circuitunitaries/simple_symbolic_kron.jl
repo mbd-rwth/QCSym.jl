@@ -49,7 +49,7 @@ function assemble_unitary(qc::QuantumCircuit, replace_symbolic_zeros::Bool=false
         multi_gates  = [g for g in gates_at_step if g.num_qubits  > 1]
 
         # Build per-qubit 2×2 matrix map for single-qubit gates
-        qubit_mat = Dict{Int, Matrix}()
+        qubit_mat = Dict{Int, AbstractMatrix}()
         for gate in single_gates
             #p = qubit_pos[(gate.qubits_t[1].name_reg, Int(gate.qubits_t[1].index_local))]
             p = gate.qubits_t[1].index_global
@@ -114,7 +114,7 @@ MSB = position 1) into the full `2^n_total × 2^n_total` Hilbert space by
 distributing gate matrix elements over the correct basis indices while treating
 all non-gate qubits as spectators.
 """
-function _embed_gate(gate_matrix::Union{Matrix, Symbolics.Arr{Complex{Symbolics.Num}, 2}}, qubits_global_indices::Vector{Int}, n_total::Int)
+function _embed_gate(gate_matrix::Union{AbstractMatrix, Symbolics.Arr{Complex{Symbolics.Num}, 2}}, qubits_global_indices::Vector{Int}, n_total::Int)
     k = length(qubits_global_indices)
     @assert size(gate_matrix) == (2^k, 2^k) "Gate matrix size $(size(gate_matrix)) inconsistent with $(k) qubits"
 
