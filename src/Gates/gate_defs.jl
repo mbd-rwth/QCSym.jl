@@ -217,7 +217,7 @@ function U_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     θ = params["θ"]["sym"]
     ϕ = params["ϕ"]["sym"]
     λ = params["λ"]["sym"]
-    base_gate.matrix_alt = Matrix([cos(θ/2) -exp(1im*λ)*sin(θ/2);
+    base_gate.matrix_alt = StaticArrays.MMatrix{2,2}([cos(θ/2) -exp(1im*λ)*sin(θ/2);
                                    exp(1im*ϕ)*sin(θ/2) exp(1im*(ϕ+λ))*cos(θ/2)])
     base_gate.is_treat_alt_only = is_treat_alt_only
     return U_Gate(base_gate)
@@ -238,8 +238,8 @@ function GP_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     if !isempty(param_values)
         base_gate.parameters["γ"]["val"] = param_values["γ"]
     end
-    base_gate.matrix_alt = Matrix([exp(1im*γ) 0.0;
-                                   0.0 exp(1im*(γ))])
+    base_gate.matrix_alt = StaticArrays.MMatrix{2,2}([exp(1im*γ) 0.0;
+                                                      0.0 exp(1im*(γ))])
     base_gate.is_treat_alt_only = is_treat_alt_only
     return GP_Gate(base_gate)
 end
@@ -260,8 +260,8 @@ function RX_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
         base_gate.parameters["θ"]["val"] = param_values["θ"]
     end
 
-    base_gate.matrix_alt = Matrix([cos(θ/2) -1im*sin(θ/2);
-                                   -1im*sin(θ/2) cos(θ/2)])
+    base_gate.matrix_alt = StaticArrays.MMatrix{2,2}([cos(θ/2) -1im*sin(θ/2);
+                                                      -1im*sin(θ/2) cos(θ/2)])
     base_gate.is_treat_alt_only = is_treat_alt_only
     return RX_Gate(base_gate)
 end
@@ -281,8 +281,8 @@ function RY_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     if !isempty(param_values)
         base_gate.parameters["θ"]["val"] = param_values["θ"]
     end
-    base_gate.matrix_alt = Matrix([cos(θ/2) -sin(θ/2);
-                                   sin(θ/2) cos(θ/2)])
+    base_gate.matrix_alt = StaticArrays.MMatrix{2,2}([cos(θ/2) -sin(θ/2);
+                                                      sin(θ/2) cos(θ/2)])
     base_gate.is_treat_alt_only = is_treat_alt_only
     return RY_Gate(base_gate)
 end
@@ -302,8 +302,8 @@ function RZ_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     if !isempty(param_values)
         base_gate.parameters["θ"]["val"] = param_values["θ"]
     end
-    base_gate.matrix_alt = Matrix([exp(-1im*θ/2) 0.0;
-                                   0.0 exp(1im*θ/2)])
+    base_gate.matrix_alt = StaticArrays.MMatrix{2,2}([exp(-1im*θ/2) 0.0;
+                                                      0.0 exp(1im*θ/2)])
     base_gate.is_treat_alt_only = is_treat_alt_only
     return RZ_Gate(base_gate)
 end
@@ -321,8 +321,8 @@ function RZ_OQ3_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVect
         step=step, num_summands_decomposed=1, parameters = params)
     θ = base_gate.parameters["θ"]["sym"]
 
-    base_gate.matrix_alt = Matrix([cos(θ/2) sin(θ/2);
-                                   sin(θ/2) -cos(θ/2)])
+    base_gate.matrix_alt = StaticArrays.MMatrix{2,2}([cos(θ/2) sin(θ/2);
+                                                      sin(θ/2) -cos(θ/2)])
     base_gate.is_treat_alt_only = is_treat_alt_only
     throw(MethodError("There probably is a typo in the docs of OpenQasm3. Until this is clarified you probably want to use the usual RZ gate instead. See https://github.com/openqasm/openqasm/issues/660"))
     return RZ_OQ3_Gate(base_gate)
@@ -345,8 +345,8 @@ function P_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     #                                0.0 exp(1im*λ)])
     # base_gate.matrix_alt = [1.0 0.0;
     #                                0.0 cos(λ)+1im*sin(λ)]
-    base_gate.matrix_alt = [1.0 0.0;
-                                   0.0 λ] # cannot directly be exp(1im*λ) is not correctly identified by build_function if λ is substituted by another symbolic expression. This has to do with the handling of complex numbers in general and especially in combination with matrices.
+    base_gate.matrix_alt = StaticArrays.MMatrix{2,2}([1.0 0.0;
+                                                      0.0 λ]) # cannot directly be exp(1im*λ) is not correctly identified by build_function if λ is substituted by another symbolic expression. This has to do with the handling of complex numbers in general and especially in combination with matrices.
     base_gate.is_treat_alt_only = is_treat_alt_only
     return P_Gate(base_gate)
 end
@@ -416,7 +416,7 @@ function CP_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
         name_prefix=name_prefix, name_short="CP", qubits_t=qubits_t, qubits_c=qubits_c,
         step=step, num_summands_decomposed=2, parameters = params)
     λ = base_gate.parameters["λ"]["sym"]
-    base_gate.matrix_alt = Matrix([1.0 0.0 0.0 0.0;
+    base_gate.matrix_alt = StaticArrays.MMatrix{4,4}([1.0 0.0 0.0 0.0;
                                    0.0 1.0 0.0 0.0;
                                    0.0 0.0 1.0 0.0;
                                    0.0 0.0 0.0 exp(1im*λ)])
@@ -437,7 +437,7 @@ function CRX_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
         step=step, num_summands_decomposed=2, parameters = params)
     params = base_gate.parameters
     θ = params["θ"]["sym"]
-    base_gate.matrix_alt = Matrix([1.0 0.0 0.0 0.0;
+    base_gate.matrix_alt = StaticArrays.MMatrix{4,4}([1.0 0.0 0.0 0.0;
                                    0.0 1.0 0.0 0.0;
                                    0.0 0.0 cos(θ/2) -sin(θ/2)*1im;
                                    0.0 0.0 -sin(θ/2)*1im cos(θ/2)])
@@ -458,7 +458,7 @@ function CRY_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
         step=step, num_summands_decomposed=2, parameters = params)
     params = base_gate.parameters
     θ = params["θ"]["sym"]
-    base_gate.matrix_alt = Matrix([1.0 0.0 0.0 0.0;
+    base_gate.matrix_alt = StaticArrays.MMatrix{4,4}([1.0 0.0 0.0 0.0;
                                    0.0 1.0 0.0 0.0;
                                    0.0 0.0 cos(θ/2) -sin(θ/2);
                                    0.0 0.0 sin(θ/2) cos(θ/2)])
@@ -479,7 +479,7 @@ function CRY_OQ3_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVec
         step=step, num_summands_decomposed=2, parameters = params)
     params = base_gate.parameters
     θ = params["θ"]["sym"]
-    base_gate.matrix_alt = Matrix([1.0 0.0 0.0 0.0;
+    base_gate.matrix_alt = StaticArrays.MMatrix{4,4}([1.0 0.0 0.0 0.0;
                                    0.0 1.0 0.0 0.0;
                                    0.0 0.0 cos(θ/2) -sin(θ/2);
                                    0.0 0.0 sin(θ/2) cos(θ/2)])
@@ -500,7 +500,7 @@ function CRZ_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
         step=step, num_summands_decomposed=2, parameters = params)
     params = base_gate.parameters
     θ = params["θ"]["sym"]
-    base_gate.matrix_alt = Matrix([1.0 0.0 0.0 0.0;
+    base_gate.matrix_alt = StaticArrays.MMatrix{4,4}([1.0 0.0 0.0 0.0;
                                    0.0 1.0 0.0 0.0;
                                    0.0 0.0 exp(-1im*θ/2) 0.0;
                                    0.0 0.0 0.0 exp(1im*θ/2)])
@@ -546,7 +546,7 @@ function CU_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
             exp(im*(γ+ϕ))*sin(θ/2) exp(im*(γ+ϕ+λ))*cos(θ/2)]
     #umat = exp(1im*γ)*Matrix([cos(θ/2) -exp(1im*λ)*sin(θ/2);
     #                          exp(1im*ϕ)*sin(θ/2) exp(1im*(ϕ+λ))*cos(θ/2)])
-    base_gate.matrix_alt = Matrix([1.0 0.0 0.0 0.0;
+    base_gate.matrix_alt = StaticArrays.MMatrix{4,4}([1.0 0.0 0.0 0.0;
                                    0.0 1.0 0.0 0.0;
                                    0.0 0.0 umat[1,1] umat[1,2];
                                    0.0 0.0 umat[2,1] umat[2,2]])

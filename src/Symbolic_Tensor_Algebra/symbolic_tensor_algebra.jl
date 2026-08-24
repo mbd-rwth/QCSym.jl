@@ -1,5 +1,6 @@
 import LinearAlgebra
 import StaticArrays
+import Base
 
 function _promote_shape_nD(a::Symbolics.Arr{T}, b::Symbolics.Arr{T2}) where {T, T2}
     sizea = size(a)
@@ -127,6 +128,20 @@ end
 #     return SymbolicUtils.term(+, xs...; type=SymbolicUtils.SymReal)
 # end
 
+# function Base.:*(a::StaticArrays.SArray{Tuple{2, 2}, Complex{Float64}, 2, 4}, b::Matrix{ComplexF64})
+#     if size(b) == (2, 2)
+#         return StaticArrays.SMatrix{2, 2, ComplexF64}(a * StaticArrays.MMatrix{2, 2, ComplexF64}(b))
+#     else
+#         return Matrix{ComplexF64}(a) * b        
+#     end
+# end
+# function Base.:*(a::Matrix{ComplexF64}, b::StaticArrays.SArray{Tuple{2, 2}, Complex{Float64}, 2, 4})
+#     if size(a) == (2, 2)
+#         return StaticArrays.SMatrix{2, 2, ComplexF64}(StaticArrays.MMatrix{2, 2, ComplexF64}(a) * b)
+#     else
+#         return a * Matrix{ComplexF64}(b)
+#     end
+# end
 
 SymbolicUtils.islike(a::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}, ::Type{Number}) = true
 
