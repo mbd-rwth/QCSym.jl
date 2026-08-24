@@ -65,23 +65,23 @@ function main(;num_qubits::Int, num_layers::Int, num_samples::Int, cse::Bool, pa
     # Build data encoding j (adjoint)
     #################
     num_p_gates_so_far = length(qc.gatecollection.collections[QCSym.Gates.P_Gate])
-    # for _ in 1:num_layers
-    #     for i in 1:num_qubits-1
-    #         QCSym.Circuits.add_gate(qc, QCSym.Gates.CX_Gate, qubits_t=[qreg[i+1]], qubits_c=[qreg[i]], step=step_id, is_treat_numeric_only=false)
-    #         step_id += 1
-    #         QCSym.Circuits.add_gate(qc, QCSym.Gates.P_Gate, qubits_t=[qreg[i+1]], step=step_id, is_treat_numeric_only=false, param_values=Dict("θ"=> 0.0))
-    #         step_id += 1
-    #         QCSym.Circuits.add_gate(qc, QCSym.Gates.CX_Gate, qubits_t=[qreg[i+1]], qubits_c=[qreg[i]], step=step_id, is_treat_numeric_only=false)
-    #         step_id += 1    
-    #     end
-    #     for i in 1:num_qubits
-    #         QCSym.Circuits.add_gate(qc, QCSym.Gates.P_Gate, qubits_t=[qreg[i]], step=step_id, is_treat_numeric_only=false, param_values=Dict("λ"=> 0.0))
-    #     end
-    #     step_id += 1
-    #     for i in 1:num_qubits
-    #         QCSym.Circuits.add_gate(qc, QCSym.Gates.H_Gate, qubits_t=[qreg[i]], step=step_id, is_treat_numeric_only=false)
-    #     end
-    # end
+    for _ in 1:num_layers
+        for i in 1:num_qubits-1
+            QCSym.Circuits.add_gate(qc, QCSym.Gates.CX_Gate, qubits_t=[qreg[i+1]], qubits_c=[qreg[i]], step=step_id, is_treat_numeric_only=false)
+            step_id += 1
+            QCSym.Circuits.add_gate(qc, QCSym.Gates.P_Gate, qubits_t=[qreg[i+1]], step=step_id, is_treat_numeric_only=false, param_values=Dict("θ"=> 0.0))
+            step_id += 1
+            QCSym.Circuits.add_gate(qc, QCSym.Gates.CX_Gate, qubits_t=[qreg[i+1]], qubits_c=[qreg[i]], step=step_id, is_treat_numeric_only=false)
+            step_id += 1    
+        end
+        for i in 1:num_qubits
+            QCSym.Circuits.add_gate(qc, QCSym.Gates.P_Gate, qubits_t=[qreg[i]], step=step_id, is_treat_numeric_only=false, param_values=Dict("λ"=> 0.0))
+        end
+        step_id += 1
+        for i in 1:num_qubits
+            QCSym.Circuits.add_gate(qc, QCSym.Gates.H_Gate, qubits_t=[qreg[i]], step=step_id, is_treat_numeric_only=false)
+        end
+    end
 
     #################
     # End data encoding
