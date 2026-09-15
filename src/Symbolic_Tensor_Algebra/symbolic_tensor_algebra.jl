@@ -93,20 +93,27 @@ end
     return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal)
 end
 
-⊙(xs::Vararg{SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}}) = begin
-    return SymbolicUtils.term(⊙, xs...; type=SymbolicUtils.SymReal)
-end
-⊙(xs::AbstractMatrix...) = begin
-    return *(xs...)
-end
+# ⊙(xs::Vararg{<:Union{Symbolics.Num, Complex{Symbolics.Num}}}) = begin
+#     println("⊙ vararg2 called with ", length(xs), " args")
+#     return SymbolicUtils.term(⊙, xs; type=SymbolicUtils.SymReal)
+# end
+
+# ⊙(xs::Vararg{SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}}) = begin
+#     println("⊙ vararg called with ", length(xs), " args")
+#     return SymbolicUtils.term(⊙, (xxs for xxs in xs if !_is_identity_filler(xxs))...; type=SymbolicUtils.SymReal)
+# end
+
+# ⊙(xs::AbstractMatrix...) = begin
+#     return *(xs...)
+# end
 
 ⊙(x1::Number, x2::Number) = begin
     return x1 * x2
 end
 
-⊙(x1::AbstractMatrix{<:Number}, x2::AbstractMatrix{<:Number}) = begin
-    return x1 * x2
-end
+#⊙(x1::AbstractMatrix{<:Number}, x2::AbstractMatrix{<:Number}) = begin
+#    return x1 * x2
+#end
 
 ⊙(x1::Number, x2::AbstractMatrix{<:Number}) = begin
     return x1 * x2
@@ -116,9 +123,36 @@ end
     return x1 * x2
 end
 
-⊙(xs::Vararg{AbstractMatrix{<:Number}}) = begin
-    return *(xs...)
+# ⊙(x1::AbstractMatrix{<:Number}, x2::StaticArrays.SMatrix{2, 2, ComplexF64}) = begin
+#     return StaticArrays.SMatrix{2, 2, ComplexF64}(x1 * x2)
+# end
+
+⊙(x1::T, x2::T2) where {T, T2 <: Union{AbstractMatrix{<:Number}, StaticArrays.SMatrix{2, 2, <:Number}, StaticArrays.MMatrix{2, 2, <:Number}}} = begin
+    return StaticArrays.MMatrix{2, 2, ComplexF64}(x1 * x2)
 end
+
+#const one_2x2_mmatrix_complex = StaticArrays.MMatrix{2, 2, ComplexF64}([1 0; 0 1])
+
+#⊙(xs::Vararg{AbstractMatrix{<:Number}}) = begin
+# ⊙(xs::Tuple{<:Union{AbstractMatrix{<:Number}, Symbolics.Num, Complex{Symbolics.Num}, SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}}}) = begin
+#     #return *(xs...)
+#     if size(xs[1]) == (2, 2)
+#         out = one_2x2_mmatrix_complex
+#     else
+#         out = one(Matrix{ComplexF64}, size(xs[1], 1), size(xs[1], 2))
+#     end
+#     for i in eachindex(xs)
+#         out = LinearAlgebra.mul!(out, out, xs[i])
+#     end
+    
+#     return out
+# end
+
+# ⊙(xs::Vararg{<:Union{AbstractMatrix{<:Number}, Symbolics.Num, Complex{Symbolics.Num}, SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}}}) = begin
+#     return SymbolicUtils.term(⊙, xs...; type=SymbolicUtils.SymReal)
+# end
+
+#Symbolics.@register_symbolic ⊙(x1, x2) false
 
 # ⊙(xs::Vararg{Any}) = begin
 #     return SymbolicUtils.term(⊙, xs...; type=SymbolicUtils.SymReal)

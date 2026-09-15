@@ -22,6 +22,8 @@ abstract type FillerGate end
 const GateDecomposition2x2Types = Dict{UInt, Vector{Type{<:AbstractSingleQubitQuantumGate}}}
 const GateDecomposition2x2Gates = Dict{UInt, Vector{<:AbstractSingleQubitQuantumGate}}
 
+const GateMatrixNumericType = ComplexF64
+
 macro insert_fields_AbstractQuantumGate()
     quote
         $(esc(:(num_qubits::Int)))

@@ -25,7 +25,7 @@ function _00_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="_00", qubits_t=qubits_t, qubits_c=nothing,
         step=step, num_summands_decomposed=1)
-    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2}([1 0; 0 0])
+    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2,GateMatrixNumericType}([1 0; 0 0])
     return _00_Gate(base_gate)
 end
 
@@ -39,7 +39,7 @@ function _11_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="_11", qubits_t=qubits_t, qubits_c=nothing,
         step=step, num_summands_decomposed=1)
-    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2}([0 0; 0 1])
+    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2,GateMatrixNumericType}([0 0; 0 1])
     return _11_Gate(base_gate)
 end
 
@@ -52,7 +52,7 @@ function I_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="I", qubits_t=qubits_t, qubits_c=nothing,
         step=step, num_summands_decomposed=1)
-    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2}([1 0; 0 1])
+    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2,GateMatrixNumericType}([1 0; 0 1])
     return I_Gate(base_gate)
 end
 
@@ -64,7 +64,7 @@ struct I_Gate_Filler{T<:Int} <: AbstractSingleQubitQuantumGateNonParametric{T}
     #@insert_fields_AbstractQuantumGate()
     #@constructor_from_mutable_base(I_Gate, mutable_BaseQuantumGate_for_construction)
     #I_Gate_Filler(qbit_glob_id::T) where {T<:Int} = new{T}(qbit_glob_id, SymbolicUtils.ShapeVecT([1:2,1:2]), SymbolicUtils.one_of_vartype(SymbolicUtils.SymReal), [1 0; 0 1])
-    I_Gate_Filler(qbit_glob_id::T) where {T<:Int} = new{T}(qbit_glob_id, SymbolicUtils.ShapeVecT([1:2,1:2]), eval(:(Symbolics.@variables($(Symbol("I"))::Complex{Real})[1])), StaticArrays.SMatrix{2,2}([1 0; 0 1]))
+    I_Gate_Filler(qbit_glob_id::T) where {T<:Int} = new{T}(qbit_glob_id, SymbolicUtils.ShapeVecT([1:2,1:2]), eval(:(Symbolics.@variables($(Symbol("I"))::Complex{Real})[1])), StaticArrays.SMatrix{2,2,GateMatrixNumericType}([1 0; 0 1]))
 end
 
 Base.show(io::IO, gate::I_Gate_Filler) = begin
@@ -85,7 +85,7 @@ function X_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="X", qubits_t=qubits_t, qubits_c=nothing,
         step=step, num_summands_decomposed=1)
-    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2}([0 1; 1 0])
+    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2,GateMatrixNumericType}([0 1; 1 0])
     return X_Gate(base_gate)
 end
 
@@ -99,7 +99,7 @@ function Y_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="Y", qubits_t=qubits_t, qubits_c=nothing,
         step=step, num_summands_decomposed=1)
-    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2}([0.0 0.0-1im; 0.0+1im 0.0])
+    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2,GateMatrixNumericType}([0.0 0.0-1im; 0.0+1im 0.0])
     return Y_Gate(base_gate)
 end
 
@@ -113,7 +113,7 @@ function Z_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="Z", qubits_t=qubits_t, qubits_c=nothing,
         step=step, num_summands_decomposed=1)
-    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2}([1 0; 0 -1])
+    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2,GateMatrixNumericType}([1 0; 0 -1])
     return Z_Gate(base_gate)
 end
 
@@ -123,11 +123,13 @@ struct H_Gate{T<:AbstractBit} <: AbstractSingleQubitQuantumGateNonParametric{T}
     
 end
 
+const HADAMARD_NUMERIC = 1/sqrt(2)*StaticArrays.SMatrix{2,2,GateMatrixNumericType}([1.0 1.0; 1.0 -1.0])
+
 function H_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QBit}, step::Int, is_treat_numeric_only::Bool, _...)
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="H", qubits_t=qubits_t, qubits_c=nothing,
         step=step, num_summands_decomposed=1)
-    base_gate.matrix_numeric = 1/sqrt(2)*StaticArrays.SMatrix{2,2}([1.0 1.0; 1.0 -1.0])
+    base_gate.matrix_numeric =  HADAMARD_NUMERIC
     return H_Gate(base_gate)
 end
 
@@ -141,7 +143,7 @@ function S_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="S", qubits_t=qubits_t, qubits_c=nothing,
         step=step, num_summands_decomposed=1)
-    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2}([1 0; 0 1im])
+    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2,GateMatrixNumericType}([1 0; 0 1im])
     return S_Gate(base_gate)
 end
 
@@ -155,7 +157,7 @@ function Sdg_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="Sdg", qubits_t=qubits_t, qubits_c=nothing,
         step=step, num_summands_decomposed=1)
-    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2}([1 0; 0 -1im])
+    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2,GateMatrixNumericType}([1 0; 0 -1im])
     return Sdg_Gate(base_gate)
 end
 
@@ -169,7 +171,7 @@ function T_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QB
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="T", qubits_t=qubits_t, qubits_c=nothing,
         step=step, num_summands_decomposed=1)
-    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2}([1 0; 0 (1+1im)/sqrt(2)])
+    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2,GateMatrixNumericType}([1 0; 0 (1+1im)/sqrt(2)])
     return T_Gate(base_gate)
 end
 
@@ -183,7 +185,7 @@ function Tdg_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="Tdg", qubits_t=qubits_t, qubits_c=nothing,
         step=step, num_summands_decomposed=1)
-    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2}([1 0; 0 (1-1im)/sqrt(2)])
+    base_gate.matrix_numeric = StaticArrays.SMatrix{2,2,GateMatrixNumericType}([1 0; 0 (1-1im)/sqrt(2)])
     return Tdg_Gate(base_gate)
 end
 
@@ -197,7 +199,7 @@ function SX_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="SX", qubits_t=qubits_t, qubits_c=nothing,
         step=step, num_summands_decomposed=1)
-    base_gate.matrix_numeric = 0.5*StaticArrays.SMatrix{2,2}([1+1im 1-1im; 1-1im 1+1im])
+    base_gate.matrix_numeric = 0.5*StaticArrays.SMatrix{2,2,GateMatrixNumericType}([1+1im 1-1im; 1-1im 1+1im])
     return SX_Gate(base_gate)
 end
 
@@ -362,7 +364,7 @@ function CX_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
         step=step, num_summands_decomposed=2,
         decomposition_t=GateDecomposition2x2Types(1=>[I_Gate, X_Gate]),
         decomposition_c=GateDecomposition2x2Types(1=>[_00_Gate, _11_Gate]))
-    base_gate.matrix_numeric = StaticArrays.SMatrix{4,4}([1.0 0.0 0.0 0.0;
+    base_gate.matrix_numeric = StaticArrays.SMatrix{4,4,GateMatrixNumericType}([1.0 0.0 0.0 0.0;
                                 0.0 1.0 0.0 0.0;
                                 0.0 0.0 0.0 1.0;
                                 0.0 0.0 1.0 0.0])
@@ -379,7 +381,7 @@ function CY_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="CY", qubits_t=qubits_t, qubits_c=qubits_c,
         step=step, num_summands_decomposed=2)
-    base_gate.matrix_numeric = StaticArrays.SMatrix{4,4}([1.0 0.0 0.0 0.0;
+    base_gate.matrix_numeric = StaticArrays.SMatrix{4,4,GateMatrixNumericType}([1.0 0.0 0.0 0.0;
                                 0.0 1.0 0.0 0.0;
                                 0.0 0.0 0.0 -1im;
                                 0.0 0.0 1im 0.0])
@@ -396,7 +398,7 @@ function CZ_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
     base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only, 
         name_prefix=name_prefix, name_short="CZ", qubits_t=qubits_t, qubits_c=qubits_c,
         step=step, num_summands_decomposed=2)
-    base_gate.matrix_numeric = StaticArrays.SMatrix{4,4}([1.0 0.0 0.0 0.0;
+    base_gate.matrix_numeric = StaticArrays.SMatrix{4,4,GateMatrixNumericType}([1.0 0.0 0.0 0.0;
                                 0.0 1.0 0.0 0.0;
                                 0.0 0.0 1.0 0.0;
                                 0.0 0.0 0.0 -1.0])
@@ -519,7 +521,7 @@ function CH_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{Q
         name_prefix=name_prefix, name_short="CH", qubits_t=qubits_t, qubits_c=qubits_c,
         step=step, num_summands_decomposed=2)
     
-    base_gate.matrix_numeric = StaticArrays.SMatrix{4,4}([1.0 0.0 0.0 0.0;
+    base_gate.matrix_numeric = StaticArrays.SMatrix{4,4,GateMatrixNumericType}([1.0 0.0 0.0 0.0;
                                        0.0 1.0 0.0 0.0;
                                        0.0 0.0 1.0 1.0;
                                        0.0 0.0 1.0 -1.0]) / sqrt(2)
@@ -565,7 +567,7 @@ function SWAP_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector
         name_prefix=name_prefix, name_short="SWAP", qubits_t=qubits_t, qubits_c=nothing,
         step=step, num_summands_decomposed=1)
     
-    base_gate.matrix_numeric = StaticArrays.SMatrix{4,4}([1.0 0.0 0.0 0.0;
+    base_gate.matrix_numeric = StaticArrays.SMatrix{4,4,GateMatrixNumericType}([1.0 0.0 0.0 0.0;
                                    0.0 0.0 1.0 0.0;
                                    0.0 1.0 0.0 0.0;
                                    0.0 0.0 0.0 1.0])

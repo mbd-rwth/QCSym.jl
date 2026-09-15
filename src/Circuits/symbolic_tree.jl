@@ -74,6 +74,22 @@ function gcol2tree(gcol::GateCollection)
     return U
 end
 
+function _unroll_prod(x)
+    if SymbolicUtils.isterm(x) && x.f == QCSym.:⊙
+        return (xx for xx in x.args)
+    else
+        return (x,)
+    end
+end
+
+# function _mul_kron(x, y)
+#     println("x.f: ", x.f, " y.f: ", y.f)
+#     println("x.args: ", x.args, " y.args: ", y.args)
+    
+#     res = QCSym.:⊗((QCSym.:⊙((_unroll_prod(_x)..., _unroll_prod(_y)...)) for (_x, _y) in zip(x.args, y.args))...)
+#     return res
+# end
+
 function _mul_kron(x, y)
     res = QCSym.:⊗((QCSym.:⊙(_x, _y) for (_x, _y) in zip(x.args, y.args))...)
     return res

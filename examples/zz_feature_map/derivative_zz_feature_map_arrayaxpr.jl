@@ -15,13 +15,12 @@ Threads.threadpoolsize(:default)
 Threads.threadpoolsize(:interactive)
 
 function sample!(o, f, samples)
-    #Threads.@threads :static for i in axes(o,2)
+    Threads.@threads :static for i in axes(o,2)
        #println(f(@view(samples[:,i]))[1][:,1])
-        #o[:,i] .= f(@view(samples[:,i]))[:,1]
-        #o[i][:,1] = f(@view(samples[:,i]))[:,1]
-    #end
-    for (i, s) in enumerate(eachcol(o))
-        s .= f(@view(samples[:,i]))[:,1]
+        #o[:,i] = f(@view(samples[:,i]))[1][:,1]
+        f(@view(o[i]), @view(samples[:,i]))
+
+
     end
 end
 
@@ -100,34 +99,33 @@ function main(;num_qubits::Int, num_layers::Int, num_samples::Int, cse::Bool, pa
     inputs = rand(length(params), num_samples)
     #outputs = StaticArrays.MMatrix{2^num_qubits, num_samples, ComplexF64}(undef)
     #outputs = StaticArrays.SizedMatrix{2^num_qubits, num_samples, ComplexF64}(zeros(ComplexF64, 2^num_qubits, num_samples))
-    outputs = rand(ComplexF64, 2^num_qubits, num_samples)
     #outputs = zeros(ComplexF64, 2^num_qubits, num_samples)
-    # outputs = Vector{StaticArrays.MMatrix{2^num_qubits, 2^num_qubits, ComplexF64}}(undef, num_samples)
-    # outputs = Vector{Matrix{ComplexF64}}(undef, num_samples)
-    # for i in 1:num_samples
-    #     outputs[i] = Matrix{ComplexF64}(undef, 2^num_qubits, 2^num_qubits)
-    # end
+    #outputs = Vector{StaticArrays.MMatrix{2^num_qubits, 2^num_qubits, ComplexF64}}(undef, num_samples)
+    outputs = Vector{Matrix{ComplexF64}}(undef, num_samples)
+    for i in 1:num_samples
+        outputs[i] = zeros(ComplexF64, 2^num_qubits, 2^num_qubits)
+    end
 
 
     #################
     # Build functions
     #################
-    ef = Symbolics.build_function(exprtree, params; cse=cse, parallel=parallel, expression=Val{true}, checkbounds=false, nanmath=false, force_SA=true, convert_oop=false)
+    ef = Symbolics.build_function([exprtree,], params; cse=cse, parallel=parallel, expression=Val{true}, checkbounds=false, nanmath=false, force_SA=true, convert_oop=false)
 
-    t_code_generation = @timed bf = Symbolics.build_function(exprtree, params; cse=cse, parallel=parallel, expression=Val{false}, checkbounds=false, nanmath=false, force_SA=true, convert_oop=false)
+    t_code_generation = @timed bf = Symbolics.build_function([exprtree,], params; cse=cse, parallel=parallel, expression=Val{false}, checkbounds=false, nanmath=false, force_SA=true, convert_oop=false)
 
     #################
     # Sample
     #################
-    t_sampling = @timed sample!(outputs, bf, inputs)
+    t_sampling = @timed sample!(outputs, bf[2], inputs)
     return Dict("build_exprtree" => t_build_exprtree, "derivative" => t_derivative, "convert_exprtree" => t_convert_exprtree, "code_generation" => t_code_generation, "sampling" => t_sampling,
     "bf" => bf, "ef" => ef, "exprtree" => exprtree, "params" => params, "exprtree_init" => exprtree_init, "exprtree_unsubs" => exprtree_unsubs, "exprtree_deriv" => exprtree_deriv, "dict_to_subs_P_derv" => dict_to_subs_P_derv)
     #return ("build_exprtree" => t_build_exprtree, "code_generation" => t_code_generation, "sampling" => t_sampling)
 end
 
-out = main(num_qubits=7, num_layers=4, num_samples=100000, cse=true, parallel=Symbolics.MultithreadedForm()); println(out["sampling"])
-out = main(num_qubits=4, num_layers=1, num_samples=100000, cse=true, parallel=Symbolics.MultithreadedForm()); println(out["sampling"])
-out = main(num_qubits=4, num_layers=1, num_samples=100000, cse=true, parallel=Symbolics.MultithreadedForm()); println(out["sampling"])
+out = main(num_qubits=7, num_layers=4, num_samples=100000, cse=true, parallel=Symbolics.SerialForm()); println(out["sampling"])
+out = main(num_qubits=4, num_layers=1, num_samples=100000, cse=true, parallel=Symbolics.SerialForm()); println(out["sampling"])
+out = main(num_qubits=4, num_layers=1, num_samples=100000, cse=true, parallel=Symbolics.SerialForm()); println(out["sampling"])
 exit()
 #MultithreadedForm
 #out["convert_exprtree"]
