@@ -50,7 +50,12 @@ _widen_if_static(x) = x
 _kron_size_capped(xs::AbstractArray{<:Number}...) = begin
     outdim = prod(size(x, 1) for x in xs)
     if outdim > _MAX_STATIC_KRON_DIM
-        return LinearAlgebra.kron(map(_widen_if_static, xs)...)
+        out = Matrix{ComplexF64}(undef, outdim, prod(size(x, 2) for x in xs))
+        #return LinearAlgebra.kron(map(_widen_if_static, xs)...)
+        for i in eachindex(xs)
+            out = LinearAlgebra.kron!(out, xs[i])
+        end
+        return out
     end
     return LinearAlgebra.kron(xs...)
 end
@@ -76,21 +81,21 @@ _is_identity_filler(x) = SymbolicUtils.issym(x) && Symbolics.getname(x) === :I
 ⊙(x1::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}, x2::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}) = begin
     _is_identity_filler(x1) && return x2
     _is_identity_filler(x2) && return x1
-    return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal)
+    return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal, shape=(1:2, 1:2))
 end
 
 ⊙(x1::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}, x2::Union{Symbolics.Num, Complex{Symbolics.Num}}) = begin
     _is_identity_filler(x1) && return x2
-    return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal)
+    return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal, shape=(1:2, 1:2))
 end
 
 ⊙(x1::Union{Symbolics.Num, Complex{Symbolics.Num}}, x2::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}) = begin
     _is_identity_filler(x2) && return x1
-    return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal)
+    return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal, shape=(1:2, 1:2))
 end
 
 ⊙(x1::Union{Symbolics.Num, Complex{Symbolics.Num}}, x2::Union{Symbolics.Num, Complex{Symbolics.Num}}) = begin
-    return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal)
+    return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal, shape=(1:2, 1:2))
 end
 
 # ⊙(xs::Vararg{<:Union{Symbolics.Num, Complex{Symbolics.Num}}}) = begin
@@ -107,6 +112,24 @@ end
 #     return *(xs...)
 # end
 
+# First column of a factor. Column 1 of a Kronecker product is the Kronecker
+# product of the factors' first columns, and column 1 of a matrix chain only
+# needs the first column of its rightmost factor, so wrapping the rightmost
+# (earliest step) factor of every per-qubit chain in col_1 turns a tree for the
+# whole unitary into a tree for its first column, without ever forming a
+# 2^n x 2^n intermediate. See Circuits.gcol2tree_col_1.
+col_1(x) = begin
+    return SymbolicUtils.term(col_1, x; type=SymbolicUtils.SymReal, shape=(1:2, 1:1))
+end
+
+col_1(x::AbstractMatrix{<:Number}) = begin
+    return x[:, 1]
+end
+
+col_1(x::AbstractVector{<:Number}) = x
+
+col_1(x::Number) = x
+
 ⊙(x1::Number, x2::Number) = begin
     return x1 * x2
 end
@@ -116,6 +139,16 @@ end
 #end
 
 ⊙(x1::Number, x2::AbstractMatrix{<:Number}) = begin
+    return x1 * x2
+end
+
+# A col_1 factor only ever sits at the right end of a chain, so the remaining
+# factors keep multiplying onto a column instead of widening back to a matrix.
+⊙(x1::AbstractMatrix{<:Number}, x2::AbstractVector{<:Number}) = begin
+    return x1 * x2
+end
+
+⊙(x1::Number, x2::AbstractVector{<:Number}) = begin
     return x1 * x2
 end
 
@@ -179,7 +212,9 @@ end
 
 SymbolicUtils.islike(a::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}, ::Type{Number}) = true
 
-is_matop(f) = f === (⊗) || f === (⊙)
+# col_1 is linear, so kron_derivative's multilinear product rule differentiates
+# it correctly as the one-argument case: d(col_1(X)) = col_1(dX).
+is_matop(f) = f === (⊗) || f === (⊙) || f === (col_1)
 
 depends_on(ex, v) = begin
     if any(isequal(Symbolics.value(v)), Symbolics.get_variables(ex))
