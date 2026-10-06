@@ -1,0 +1,1407 @@
+MethodInstance for RuntimeGeneratedFunctions.generated_callfunc(::RuntimeGeneratedFunctions.RuntimeGeneratedFunction{(:ˍ₋arg1,), Symbolics.var"#_RGF_ModTag", Symbolics.var"#_RGF_ModTag", (0xf18ace86, 0xc2a2fa7b, 0x94a9f315, 0xd75231a4, 0x53a47d8e), Expr}, ::Vector{Float64})
+  from generated_callfunc(::RuntimeGeneratedFunctions.RuntimeGeneratedFunction{argnames, cache_tag, Symbolics.var"#_RGF_ModTag", id}, ˍ₋rgf₋args...) where {argnames, cache_tag, id} @ Symbolics none:0
+Static Parameters
+  argnames = (:ˍ₋arg1,)
+  cache_tag = Symbolics.var"#_RGF_ModTag"
+  id = (0xf18ace86, 0xc2a2fa7b, 0x94a9f315, 0xd75231a4, 0x53a47d8e)
+Arguments
+  #self#::Core.Const(RuntimeGeneratedFunctions.generated_callfunc)
+  _::RuntimeGeneratedFunctions.RuntimeGeneratedFunction{(:ˍ₋arg1,), Symbolics.var"#_RGF_ModTag", Symbolics.var"#_RGF_ModTag", (0xf18ace86, 0xc2a2fa7b, 0x94a9f315, 0xd75231a4, 0x53a47d8e), Expr}
+  ˍ₋rgf₋args::Tuple{Vector{Float64}}
+Locals
+  val@_4::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+  val@_5::Vector{Float64}
+  cse#314::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+  cse#313::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+  cse#312::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+  cse#311::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#310::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#309::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#308::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#307::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#306::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#305::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#304::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#303::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#302::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#301::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+  cse#300::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#299::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#298::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#297::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#296::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#295::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#294::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#293::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#292::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#291::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#290::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#289::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#288::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#287::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#286::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+  cse#285::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#284::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#283::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#282::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#281::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#280::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#279::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#278::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#277::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#276::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#275::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#274::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#273::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#272::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#271::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#270::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#269::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+  cse#268::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#267::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#266::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#265::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#264::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#263::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#262::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#261::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#260::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#259::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#258::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#257::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#256::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#255::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#254::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#253::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#252::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#251::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#250::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#249::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#248::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#247::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#246::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#245::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#244::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#243::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#242::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#241::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#240::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#239::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#238::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#237::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#236::StaticArraysCore.SMatrix{2, 2, ComplexF64, 4}
+  cse#235::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#234::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#233::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#232::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#231::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#230::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#229::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#228::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#227::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#226::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#225::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#224::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#223::StaticArraysCore.SMatrix{2, 2, ComplexF64, 4}
+  cse#222::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+  cse#221::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+  cse#220::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#219::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#218::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#217::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#216::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#215::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#214::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#213::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#212::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#211::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#210::Matrix{ComplexF64}
+  cse#209::ComplexF64
+  cse#208::Float64
+  cse#207::ComplexF64
+  cse#206::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#205::Matrix{ComplexF64}
+  cse#204::ComplexF64
+  cse#203::ComplexF64
+  cse#202::Float64
+  cse#201::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+  cse#200::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#199::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#198::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#197::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#196::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#195::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#194::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#193::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#192::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#191::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#190::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#189::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#188::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#187::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#186::Matrix{ComplexF64}
+  cse#185::ComplexF64
+  cse#184::ComplexF64
+  cse#183::Float64
+  cse#182::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#181::Matrix{ComplexF64}
+  cse#180::ComplexF64
+  cse#179::ComplexF64
+  cse#178::Float64
+  cse#177::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+  cse#176::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#175::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#174::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#173::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#172::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#171::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#170::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#169::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#168::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#167::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#166::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#165::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#164::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#163::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#162::Matrix{ComplexF64}
+  cse#161::ComplexF64
+  cse#160::ComplexF64
+  cse#159::Float64
+  cse#158::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#157::Matrix{ComplexF64}
+  cse#156::ComplexF64
+  cse#155::Float64
+  cse#154::ComplexF64
+  cse#153::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#152::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#151::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+  cse#150::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#149::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#148::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#147::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#146::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#145::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#144::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#143::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#142::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#141::Matrix{ComplexF64}
+  cse#140::ComplexF64
+  cse#139::Float64
+  cse#138::Float64
+  cse#137::Float64
+  cse#136::Float64
+  cse#135::Float64
+  cse#134::Matrix{ComplexF64}
+  cse#133::ComplexF64
+  cse#132::ComplexF64
+  cse#131::Matrix{ComplexF64}
+  cse#130::ComplexF64
+  cse#129::ComplexF64
+  cse#128::Float64
+  cse#127::Float64
+  cse#126::Matrix{ComplexF64}
+  cse#125::ComplexF64
+  cse#124::Float64
+  cse#123::Float64
+  cse#122::Float64
+  cse#121::Float64
+  cse#120::Float64
+  cse#119::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#118::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#117::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#116::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#115::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#114::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#113::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#112::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#111::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#110::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#109::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#108::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#107::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#106::Matrix{ComplexF64}
+  cse#105::ComplexF64
+  cse#104::Float64
+  cse#103::Float64
+  cse#102::Float64
+  cse#101::Float64
+  cse#100::Float64
+  cse#99::Matrix{ComplexF64}
+  cse#98::ComplexF64
+  cse#97::ComplexF64
+  cse#96::Matrix{ComplexF64}
+  cse#95::ComplexF64
+  cse#94::ComplexF64
+  cse#93::Float64
+  cse#92::Float64
+  cse#91::Matrix{ComplexF64}
+  cse#90::ComplexF64
+  cse#89::Float64
+  cse#88::Float64
+  cse#87::Float64
+  cse#86::Float64
+  cse#85::Float64
+  cse#84::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#83::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#82::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#81::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#80::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#79::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#78::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#77::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#76::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#75::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#74::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#73::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#72::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#71::Matrix{ComplexF64}
+  cse#70::ComplexF64
+  cse#69::Float64
+  cse#68::Float64
+  cse#67::Float64
+  cse#66::Float64
+  cse#65::Float64
+  cse#64::Matrix{ComplexF64}
+  cse#63::ComplexF64
+  cse#62::ComplexF64
+  cse#61::Float64
+  cse#60::Float64
+  cse#59::Float64
+  cse#58::Float64
+  cse#57::Float64
+  cse#56::StaticArraysCore.SMatrix{2, 2, ComplexF64, 4}
+  cse#55::Matrix{ComplexF64}
+  cse#54::ComplexF64
+  cse#53::Float64
+  cse#52::Float64
+  cse#51::Float64
+  cse#50::Float64
+  cse#49::Float64
+  cse#48::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#47::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#46::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#45::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#44::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#43::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#42::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#41::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#40::Matrix{ComplexF64}
+  cse#39::ComplexF64
+  cse#38::ComplexF64
+  cse#37::Complex{Int64}
+  cse#36::Float64
+  cse#35::Float64
+  cse#34::Matrix{ComplexF64}
+  cse#33::ComplexF64
+  cse#32::Float64
+  cse#31::Float64
+  cse#30::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#29::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#28::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#27::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#26::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#25::StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}
+  cse#24::Matrix{ComplexF64}
+  cse#23::ComplexF64
+  cse#22::Float64
+  cse#21::Float64
+  cse#20::Float64
+  cse#19::Float64
+  cse#18::Float64
+  cse#17::Float64
+  cse#16::Float64
+  cse#15::StaticArraysCore.SMatrix{2, 2, ComplexF64, 4}
+  cse#14::Matrix{ComplexF64}
+  cse#13::Matrix{Int64}
+  cse#12::Int64
+  cse#11::ComplexF64
+  cse#10::ComplexF64
+  cse#9::Float64
+  cse#8::Complex{Int64}
+  cse#7::Float64
+  cse#6::Float64
+  cse#5::Int64
+  cse#4::Float64
+  cse#3::Float64
+  cse#2::Int64
+  cse#1::StaticArraysCore.SMatrix{2, 2, ComplexF64, 4}
+  ˍ₋arg1::Vector{Float64}
+Body::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+1 ─         nothing
+│           (val@_5 = Base.getindex(ˍ₋rgf₋args, 1))
+│           nothing
+│   %4    = val@_5::Vector{Float64}
+│           (ˍ₋arg1 = %4)
+│           nothing
+│           (cse#1 = ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│           (cse#2 = -1)
+│   %9    = cse#2::Core.Const(-1)
+│   %10   = ˍ₋arg1::Vector{Float64}
+│   %11   = Base.getindex(%10, 2)::Float64
+│   %12   = (*)(%9, %11)::Float64
+│   %13   = ˍ₋arg1::Vector{Float64}
+│   %14   = Base.getindex(%13, 1)::Float64
+│           (cse#3 = (*)(%12, %14))
+│   %16   = cse#3::Float64
+│           (cse#4 = (sin)(%16))
+│           (cse#5 = 0)
+│   %19   = cse#5::Core.Const(0)
+│           (cse#6 = (exp)(%19))
+│   %21   = ˍ₋arg1::Vector{Float64}
+│   %22   = Base.getindex(%21, 1)::Float64
+│   %23   = cse#4::Float64
+│   %24   = (*)(%22, %23)::Float64
+│   %25   = cse#6::Core.Const(1.0)
+│           (cse#7 = (*)(%24, %25))
+│           (cse#8 = 0 - 1im)
+│   %28   = cse#3::Float64
+│           (cse#9 = (cos)(%28))
+│   %30   = cse#8::Core.Const(0 - 1im)
+│   %31   = ˍ₋arg1::Vector{Float64}
+│   %32   = Base.getindex(%31, 1)::Float64
+│   %33   = (*)(%30, %32)::ComplexF64
+│   %34   = cse#6::Core.Const(1.0)
+│   %35   = (*)(%33, %34)::ComplexF64
+│   %36   = cse#9::Float64
+│           (cse#10 = (*)(%35, %36))
+│   %38   = cse#7::Float64
+│   %39   = cse#10::ComplexF64
+│           (cse#11 = (+)(%38, %39))
+│           (cse#12 = 1)
+│   %42   = cse#5::Core.Const(0)
+│   %43   = cse#5::Core.Const(0)
+│   %44   = cse#5::Core.Const(0)
+│   %45   = cse#12::Core.Const(1)
+│           (cse#13 = (SymbolicUtils.array_literal)((2, 2), %42, %43, %44, %45))
+│   %47   = cse#11::ComplexF64
+│   %48   = cse#13::Matrix{Int64}
+│           (cse#14 = (*)(%47, %48))
+│           (cse#15 = ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│           (cse#16 = 1.0)
+│           (cse#17 = 0.0)
+│   %53   = ˍ₋arg1::Vector{Float64}
+│   %54   = Base.getindex(%53, 2)::Float64
+│   %55   = ˍ₋arg1::Vector{Float64}
+│   %56   = Base.getindex(%55, 1)::Float64
+│           (cse#18 = (*)(%54, %56))
+│   %58   = cse#18::Float64
+│           (cse#19 = (cos)(%58))
+│   %60   = cse#6::Core.Const(1.0)
+│   %61   = cse#19::Float64
+│           (cse#20 = (*)(%60, %61))
+│   %63   = cse#18::Float64
+│           (cse#21 = (sin)(%63))
+│   %65   = cse#21::Float64
+│   %66   = cse#6::Core.Const(1.0)
+│           (cse#22 = (*)(%65, %66))
+│   %68   = cse#20::Float64
+│   %69   = cse#22::Float64
+│           (cse#23 = (complex)(%68, %69))
+│   %71   = cse#16::Core.Const(1.0)
+│   %72   = cse#17::Core.Const(0.0)
+│   %73   = cse#17::Core.Const(0.0)
+│   %74   = cse#23::ComplexF64
+│           (cse#24 = (SymbolicUtils.array_literal)((2, 2), %71, %72, %73, %74))
+│   %76   = cse#24::Matrix{ComplexF64}
+│   %77   = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│           (cse#25 = (QCSym.⊙)(%76, %77))
+│   %79   = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %80   = cse#25::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#26 = (QCSym.⊙)(%79, %80))
+│   %82   = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %83   = cse#26::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#27 = (QCSym.⊙)(%82, %83))
+│   %85   = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %86   = cse#27::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#28 = (QCSym.⊙)(%85, %86))
+│   %88   = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %89   = cse#28::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#29 = (QCSym.⊙)(%88, %89))
+│   %91   = cse#14::Matrix{ComplexF64}
+│   %92   = cse#29::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#30 = (QCSym.⊙)(%91, %92))
+│   %94   = cse#6::Core.Const(1.0)
+│   %95   = cse#9::Float64
+│           (cse#31 = (*)(%94, %95))
+│   %97   = cse#4::Float64
+│   %98   = cse#6::Core.Const(1.0)
+│           (cse#32 = (*)(%97, %98))
+│   %100  = cse#31::Float64
+│   %101  = cse#32::Float64
+│           (cse#33 = (complex)(%100, %101))
+│   %103  = cse#16::Core.Const(1.0)
+│   %104  = cse#17::Core.Const(0.0)
+│   %105  = cse#17::Core.Const(0.0)
+│   %106  = cse#33::ComplexF64
+│           (cse#34 = (SymbolicUtils.array_literal)((2, 2), %103, %104, %105, %106))
+│           (cse#35 = -1.0)
+│   %109  = cse#35::Core.Const(-1.0)
+│   %110  = cse#21::Float64
+│   %111  = (*)(%109, %110)::Float64
+│   %112  = ˍ₋arg1::Vector{Float64}
+│   %113  = Base.getindex(%112, 1)::Float64
+│   %114  = (*)(%111, %113)::Float64
+│   %115  = cse#6::Core.Const(1.0)
+│           (cse#36 = (*)(%114, %115))
+│           (cse#37 = 0 + 1im)
+│   %118  = cse#37::Core.Const(0 + 1im)
+│   %119  = ˍ₋arg1::Vector{Float64}
+│   %120  = Base.getindex(%119, 1)::Float64
+│   %121  = (*)(%118, %120)::ComplexF64
+│   %122  = cse#6::Core.Const(1.0)
+│   %123  = (*)(%121, %122)::ComplexF64
+│   %124  = cse#19::Float64
+│           (cse#38 = (*)(%123, %124))
+│   %126  = cse#36::Float64
+│   %127  = cse#38::ComplexF64
+│           (cse#39 = (+)(%126, %127))
+│   %129  = cse#39::ComplexF64
+│   %130  = cse#13::Matrix{Int64}
+│           (cse#40 = (*)(%129, %130))
+│   %132  = cse#40::Matrix{ComplexF64}
+│   %133  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│           (cse#41 = (QCSym.⊙)(%132, %133))
+│   %135  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %136  = cse#41::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#42 = (QCSym.⊙)(%135, %136))
+│   %138  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %139  = cse#42::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#43 = (QCSym.⊙)(%138, %139))
+│   %141  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %142  = cse#43::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#44 = (QCSym.⊙)(%141, %142))
+│   %144  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %145  = cse#44::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#45 = (QCSym.⊙)(%144, %145))
+│   %147  = cse#34::Matrix{ComplexF64}
+│   %148  = cse#45::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#46 = (QCSym.⊙)(%147, %148))
+│   %150  = cse#30::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %151  = cse#46::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#47 = (+)(%150, %151))
+│   %153  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %154  = cse#47::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#48 = (QCSym.⊙)(%153, %154))
+│   %156  = ˍ₋arg1::Vector{Float64}
+│   %157  = Base.getindex(%156, 2)::Float64
+│   %158  = ˍ₋arg1::Vector{Float64}
+│   %159  = Base.getindex(%158, 3)::Float64
+│           (cse#49 = (*)(%157, %159))
+│   %161  = cse#49::Float64
+│           (cse#50 = (cos)(%161))
+│   %163  = cse#50::Float64
+│   %164  = cse#6::Core.Const(1.0)
+│           (cse#51 = (*)(%163, %164))
+│   %166  = cse#49::Float64
+│           (cse#52 = (sin)(%166))
+│   %168  = cse#52::Float64
+│   %169  = cse#6::Core.Const(1.0)
+│           (cse#53 = (*)(%168, %169))
+│   %171  = cse#51::Float64
+│   %172  = cse#53::Float64
+│           (cse#54 = (complex)(%171, %172))
+│   %174  = cse#16::Core.Const(1.0)
+│   %175  = cse#17::Core.Const(0.0)
+│   %176  = cse#17::Core.Const(0.0)
+│   %177  = cse#54::ComplexF64
+│           (cse#55 = (SymbolicUtils.array_literal)((2, 2), %174, %175, %176, %177))
+│           (cse#56 = ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│           (cse#57 = 3.141592653589793)
+│   %181  = cse#2::Core.Const(-1)
+│   %182  = ˍ₋arg1::Vector{Float64}
+│   %183  = Base.getindex(%182, 1)::Float64
+│           (cse#58 = (*)(%181, %183))
+│   %185  = cse#57::Core.Const(3.141592653589793)
+│   %186  = cse#58::Float64
+│           (cse#59 = (+)(%185, %186))
+│   %188  = cse#2::Core.Const(-1)
+│   %189  = ˍ₋arg1::Vector{Float64}
+│   %190  = Base.getindex(%189, 3)::Float64
+│           (cse#60 = (*)(%188, %190))
+│   %192  = cse#57::Core.Const(3.141592653589793)
+│   %193  = cse#60::Float64
+│           (cse#61 = (+)(%192, %193))
+│   %195  = cse#37::Core.Const(0 + 1im)
+│   %196  = ˍ₋arg1::Vector{Float64}
+│   %197  = Base.getindex(%196, 4)::Float64
+│   %198  = (*)(%195, %197)::ComplexF64
+│   %199  = cse#59::Float64
+│   %200  = (*)(%198, %199)::ComplexF64
+│   %201  = cse#61::Float64
+│           (cse#62 = (*)(%200, %201))
+│   %203  = cse#62::ComplexF64
+│           (cse#63 = (exp)(%203))
+│   %205  = cse#16::Core.Const(1.0)
+│   %206  = cse#17::Core.Const(0.0)
+│   %207  = cse#17::Core.Const(0.0)
+│   %208  = cse#63::ComplexF64
+│           (cse#64 = (SymbolicUtils.array_literal)((2, 2), %205, %206, %207, %208))
+│   %210  = cse#2::Core.Const(-1)
+│   %211  = ˍ₋arg1::Vector{Float64}
+│   %212  = Base.getindex(%211, 2)::Float64
+│   %213  = (*)(%210, %212)::Float64
+│   %214  = ˍ₋arg1::Vector{Float64}
+│   %215  = Base.getindex(%214, 3)::Float64
+│           (cse#65 = (*)(%213, %215))
+│   %217  = cse#65::Float64
+│           (cse#66 = (cos)(%217))
+│   %219  = cse#6::Core.Const(1.0)
+│   %220  = cse#66::Float64
+│           (cse#67 = (*)(%219, %220))
+│   %222  = cse#65::Float64
+│           (cse#68 = (sin)(%222))
+│   %224  = cse#6::Core.Const(1.0)
+│   %225  = cse#68::Float64
+│           (cse#69 = (*)(%224, %225))
+│   %227  = cse#67::Float64
+│   %228  = cse#69::Float64
+│           (cse#70 = (complex)(%227, %228))
+│   %230  = cse#16::Core.Const(1.0)
+│   %231  = cse#17::Core.Const(0.0)
+│   %232  = cse#17::Core.Const(0.0)
+│   %233  = cse#70::ComplexF64
+│           (cse#71 = (SymbolicUtils.array_literal)((2, 2), %230, %231, %232, %233))
+│   %235  = cse#71::Matrix{ComplexF64}
+│   %236  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│           (cse#72 = (QCSym.⊙)(%235, %236))
+│   %238  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %239  = cse#72::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#73 = (QCSym.⊙)(%238, %239))
+│   %241  = cse#64::Matrix{ComplexF64}
+│   %242  = cse#73::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#74 = (QCSym.⊙)(%241, %242))
+│   %244  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %245  = cse#74::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#75 = (QCSym.⊙)(%244, %245))
+│   %247  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %248  = cse#75::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#76 = (QCSym.⊙)(%247, %248))
+│   %250  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %251  = cse#76::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#77 = (QCSym.⊙)(%250, %251))
+│   %253  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %254  = cse#77::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#78 = (QCSym.⊙)(%253, %254))
+│   %256  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %257  = cse#78::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#79 = (QCSym.⊙)(%256, %257))
+│   %259  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %260  = cse#79::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#80 = (QCSym.⊙)(%259, %260))
+│   %262  = cse#64::Matrix{ComplexF64}
+│   %263  = cse#80::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#81 = (QCSym.⊙)(%262, %263))
+│   %265  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %266  = cse#81::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#82 = (QCSym.⊙)(%265, %266))
+│   %268  = cse#55::Matrix{ComplexF64}
+│   %269  = cse#82::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#83 = (QCSym.⊙)(%268, %269))
+│   %271  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %272  = cse#83::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#84 = (QCSym.⊙)(%271, %272))
+│   %274  = cse#2::Core.Const(-1)
+│   %275  = ˍ₋arg1::Vector{Float64}
+│   %276  = Base.getindex(%275, 2)::Float64
+│   %277  = (*)(%274, %276)::Float64
+│   %278  = ˍ₋arg1::Vector{Float64}
+│   %279  = Base.getindex(%278, 5)::Float64
+│           (cse#85 = (*)(%277, %279))
+│   %281  = cse#85::Float64
+│           (cse#86 = (cos)(%281))
+│   %283  = cse#86::Float64
+│   %284  = cse#6::Core.Const(1.0)
+│           (cse#87 = (*)(%283, %284))
+│   %286  = cse#85::Float64
+│           (cse#88 = (sin)(%286))
+│   %288  = cse#6::Core.Const(1.0)
+│   %289  = cse#88::Float64
+│           (cse#89 = (*)(%288, %289))
+│   %291  = cse#87::Float64
+│   %292  = cse#89::Float64
+│           (cse#90 = (complex)(%291, %292))
+│   %294  = cse#16::Core.Const(1.0)
+│   %295  = cse#17::Core.Const(0.0)
+│   %296  = cse#17::Core.Const(0.0)
+│   %297  = cse#90::ComplexF64
+│           (cse#91 = (SymbolicUtils.array_literal)((2, 2), %294, %295, %296, %297))
+│   %299  = cse#2::Core.Const(-1)
+│   %300  = ˍ₋arg1::Vector{Float64}
+│   %301  = Base.getindex(%300, 5)::Float64
+│           (cse#92 = (*)(%299, %301))
+│   %303  = cse#57::Core.Const(3.141592653589793)
+│   %304  = cse#92::Float64
+│           (cse#93 = (+)(%303, %304))
+│   %306  = cse#37::Core.Const(0 + 1im)
+│   %307  = ˍ₋arg1::Vector{Float64}
+│   %308  = Base.getindex(%307, 6)::Float64
+│   %309  = (*)(%306, %308)::ComplexF64
+│   %310  = cse#93::Float64
+│   %311  = (*)(%309, %310)::ComplexF64
+│   %312  = cse#61::Float64
+│           (cse#94 = (*)(%311, %312))
+│   %314  = cse#94::ComplexF64
+│           (cse#95 = (exp)(%314))
+│   %316  = cse#16::Core.Const(1.0)
+│   %317  = cse#17::Core.Const(0.0)
+│   %318  = cse#17::Core.Const(0.0)
+│   %319  = cse#95::ComplexF64
+│           (cse#96 = (SymbolicUtils.array_literal)((2, 2), %316, %317, %318, %319))
+│   %321  = cse#8::Core.Const(0 - 1im)
+│   %322  = ˍ₋arg1::Vector{Float64}
+│   %323  = Base.getindex(%322, 6)::Float64
+│   %324  = (*)(%321, %323)::ComplexF64
+│   %325  = cse#93::Float64
+│   %326  = (*)(%324, %325)::ComplexF64
+│   %327  = cse#61::Float64
+│           (cse#97 = (*)(%326, %327))
+│   %329  = cse#97::ComplexF64
+│           (cse#98 = (exp)(%329))
+│   %331  = cse#16::Core.Const(1.0)
+│   %332  = cse#17::Core.Const(0.0)
+│   %333  = cse#17::Core.Const(0.0)
+│   %334  = cse#98::ComplexF64
+│           (cse#99 = (SymbolicUtils.array_literal)((2, 2), %331, %332, %333, %334))
+│   %336  = ˍ₋arg1::Vector{Float64}
+│   %337  = Base.getindex(%336, 2)::Float64
+│   %338  = ˍ₋arg1::Vector{Float64}
+│   %339  = Base.getindex(%338, 5)::Float64
+│           (cse#100 = (*)(%337, %339))
+│   %341  = cse#100::Float64
+│           (cse#101 = (cos)(%341))
+│   %343  = cse#101::Float64
+│   %344  = cse#6::Core.Const(1.0)
+│           (cse#102 = (*)(%343, %344))
+│   %346  = cse#100::Float64
+│           (cse#103 = (sin)(%346))
+│   %348  = cse#103::Float64
+│   %349  = cse#6::Core.Const(1.0)
+│           (cse#104 = (*)(%348, %349))
+│   %351  = cse#102::Float64
+│   %352  = cse#104::Float64
+│           (cse#105 = (complex)(%351, %352))
+│   %354  = cse#16::Core.Const(1.0)
+│   %355  = cse#17::Core.Const(0.0)
+│   %356  = cse#17::Core.Const(0.0)
+│   %357  = cse#105::ComplexF64
+│           (cse#106 = (SymbolicUtils.array_literal)((2, 2), %354, %355, %356, %357))
+│   %359  = cse#106::Matrix{ComplexF64}
+│   %360  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│           (cse#107 = (QCSym.⊙)(%359, %360))
+│   %362  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %363  = cse#107::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#108 = (QCSym.⊙)(%362, %363))
+│   %365  = cse#99::Matrix{ComplexF64}
+│   %366  = cse#108::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#109 = (QCSym.⊙)(%365, %366))
+│   %368  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %369  = cse#109::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#110 = (QCSym.⊙)(%368, %369))
+│   %371  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %372  = cse#110::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#111 = (QCSym.⊙)(%371, %372))
+│   %374  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %375  = cse#111::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#112 = (QCSym.⊙)(%374, %375))
+│   %377  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %378  = cse#112::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#113 = (QCSym.⊙)(%377, %378))
+│   %380  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %381  = cse#113::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#114 = (QCSym.⊙)(%380, %381))
+│   %383  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %384  = cse#114::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#115 = (QCSym.⊙)(%383, %384))
+│   %386  = cse#96::Matrix{ComplexF64}
+│   %387  = cse#115::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#116 = (QCSym.⊙)(%386, %387))
+│   %389  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %390  = cse#116::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#117 = (QCSym.⊙)(%389, %390))
+│   %392  = cse#91::Matrix{ComplexF64}
+│   %393  = cse#117::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#118 = (QCSym.⊙)(%392, %393))
+│   %395  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %396  = cse#118::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#119 = (QCSym.⊙)(%395, %396))
+│   %398  = ˍ₋arg1::Vector{Float64}
+│   %399  = Base.getindex(%398, 2)::Float64
+│   %400  = ˍ₋arg1::Vector{Float64}
+│   %401  = Base.getindex(%400, 7)::Float64
+│           (cse#120 = (*)(%399, %401))
+│   %403  = cse#120::Float64
+│           (cse#121 = (cos)(%403))
+│   %405  = cse#6::Core.Const(1.0)
+│   %406  = cse#121::Float64
+│           (cse#122 = (*)(%405, %406))
+│   %408  = cse#120::Float64
+│           (cse#123 = (sin)(%408))
+│   %410  = cse#123::Float64
+│   %411  = cse#6::Core.Const(1.0)
+│           (cse#124 = (*)(%410, %411))
+│   %413  = cse#122::Float64
+│   %414  = cse#124::Float64
+│           (cse#125 = (complex)(%413, %414))
+│   %416  = cse#16::Core.Const(1.0)
+│   %417  = cse#17::Core.Const(0.0)
+│   %418  = cse#17::Core.Const(0.0)
+│   %419  = cse#125::ComplexF64
+│           (cse#126 = (SymbolicUtils.array_literal)((2, 2), %416, %417, %418, %419))
+│   %421  = cse#2::Core.Const(-1)
+│   %422  = ˍ₋arg1::Vector{Float64}
+│   %423  = Base.getindex(%422, 7)::Float64
+│           (cse#127 = (*)(%421, %423))
+│   %425  = cse#57::Core.Const(3.141592653589793)
+│   %426  = cse#127::Float64
+│           (cse#128 = (+)(%425, %426))
+│   %428  = cse#37::Core.Const(0 + 1im)
+│   %429  = cse#128::Float64
+│   %430  = (*)(%428, %429)::ComplexF64
+│   %431  = ˍ₋arg1::Vector{Float64}
+│   %432  = Base.getindex(%431, 8)::Float64
+│   %433  = (*)(%430, %432)::ComplexF64
+│   %434  = cse#93::Float64
+│           (cse#129 = (*)(%433, %434))
+│   %436  = cse#129::ComplexF64
+│           (cse#130 = (exp)(%436))
+│   %438  = cse#16::Core.Const(1.0)
+│   %439  = cse#17::Core.Const(0.0)
+│   %440  = cse#17::Core.Const(0.0)
+│   %441  = cse#130::ComplexF64
+│           (cse#131 = (SymbolicUtils.array_literal)((2, 2), %438, %439, %440, %441))
+│   %443  = cse#8::Core.Const(0 - 1im)
+│   %444  = cse#128::Float64
+│   %445  = (*)(%443, %444)::ComplexF64
+│   %446  = ˍ₋arg1::Vector{Float64}
+│   %447  = Base.getindex(%446, 8)::Float64
+│   %448  = (*)(%445, %447)::ComplexF64
+│   %449  = cse#93::Float64
+│           (cse#132 = (*)(%448, %449))
+│   %451  = cse#132::ComplexF64
+│           (cse#133 = (exp)(%451))
+│   %453  = cse#16::Core.Const(1.0)
+│   %454  = cse#17::Core.Const(0.0)
+│   %455  = cse#17::Core.Const(0.0)
+│   %456  = cse#133::ComplexF64
+│           (cse#134 = (SymbolicUtils.array_literal)((2, 2), %453, %454, %455, %456))
+│   %458  = cse#2::Core.Const(-1)
+│   %459  = ˍ₋arg1::Vector{Float64}
+│   %460  = Base.getindex(%459, 2)::Float64
+│   %461  = (*)(%458, %460)::Float64
+│   %462  = ˍ₋arg1::Vector{Float64}
+│   %463  = Base.getindex(%462, 7)::Float64
+│           (cse#135 = (*)(%461, %463))
+│   %465  = cse#135::Float64
+│           (cse#136 = (cos)(%465))
+│   %467  = cse#136::Float64
+│   %468  = cse#6::Core.Const(1.0)
+│           (cse#137 = (*)(%467, %468))
+│   %470  = cse#135::Float64
+│           (cse#138 = (sin)(%470))
+│   %472  = cse#138::Float64
+│   %473  = cse#6::Core.Const(1.0)
+│           (cse#139 = (*)(%472, %473))
+│   %475  = cse#137::Float64
+│   %476  = cse#139::Float64
+│           (cse#140 = (complex)(%475, %476))
+│   %478  = cse#16::Core.Const(1.0)
+│   %479  = cse#17::Core.Const(0.0)
+│   %480  = cse#17::Core.Const(0.0)
+│   %481  = cse#140::ComplexF64
+│           (cse#141 = (SymbolicUtils.array_literal)((2, 2), %478, %479, %480, %481))
+│   %483  = cse#141::Matrix{ComplexF64}
+│   %484  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│           (cse#142 = (QCSym.⊙)(%483, %484))
+│   %486  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %487  = cse#142::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#143 = (QCSym.⊙)(%486, %487))
+│   %489  = cse#134::Matrix{ComplexF64}
+│   %490  = cse#143::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#144 = (QCSym.⊙)(%489, %490))
+│   %492  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %493  = cse#144::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#145 = (QCSym.⊙)(%492, %493))
+│   %495  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %496  = cse#145::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#146 = (QCSym.⊙)(%495, %496))
+│   %498  = cse#131::Matrix{ComplexF64}
+│   %499  = cse#146::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#147 = (QCSym.⊙)(%498, %499))
+│   %501  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %502  = cse#147::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#148 = (QCSym.⊙)(%501, %502))
+│   %504  = cse#126::Matrix{ComplexF64}
+│   %505  = cse#148::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#149 = (QCSym.⊙)(%504, %505))
+│   %507  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %508  = cse#149::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#150 = (QCSym.⊙)(%507, %508))
+│   %510  = cse#48::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %511  = cse#84::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %512  = cse#119::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %513  = cse#150::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#151 = (QCSym.⊗)(%510, %511, %512, %513))
+│   %515  = cse#34::Matrix{ComplexF64}
+│   %516  = cse#29::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#152 = (QCSym.⊙)(%515, %516))
+│   %518  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %519  = cse#152::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#153 = (QCSym.⊙)(%518, %519))
+│   %521  = cse#37::Core.Const(0 + 1im)
+│   %522  = ˍ₋arg1::Vector{Float64}
+│   %523  = Base.getindex(%522, 3)::Float64
+│   %524  = (*)(%521, %523)::ComplexF64
+│   %525  = cse#50::Float64
+│   %526  = (*)(%524, %525)::ComplexF64
+│   %527  = cse#6::Core.Const(1.0)
+│           (cse#154 = (*)(%526, %527))
+│   %529  = cse#35::Core.Const(-1.0)
+│   %530  = ˍ₋arg1::Vector{Float64}
+│   %531  = Base.getindex(%530, 3)::Float64
+│   %532  = (*)(%529, %531)::Float64
+│   %533  = cse#52::Float64
+│   %534  = (*)(%532, %533)::Float64
+│   %535  = cse#6::Core.Const(1.0)
+│           (cse#155 = (*)(%534, %535))
+│   %537  = cse#154::ComplexF64
+│   %538  = cse#155::Float64
+│           (cse#156 = (+)(%537, %538))
+│   %540  = cse#156::ComplexF64
+│   %541  = cse#13::Matrix{Int64}
+│           (cse#157 = (*)(%540, %541))
+│   %543  = cse#157::Matrix{ComplexF64}
+│   %544  = cse#82::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#158 = (QCSym.⊙)(%543, %544))
+│   %546  = ˍ₋arg1::Vector{Float64}
+│   %547  = Base.getindex(%546, 3)::Float64
+│   %548  = cse#6::Core.Const(1.0)
+│   %549  = (*)(%547, %548)::Float64
+│   %550  = cse#68::Float64
+│           (cse#159 = (*)(%549, %550))
+│   %552  = cse#8::Core.Const(0 - 1im)
+│   %553  = ˍ₋arg1::Vector{Float64}
+│   %554  = Base.getindex(%553, 3)::Float64
+│   %555  = (*)(%552, %554)::ComplexF64
+│   %556  = cse#6::Core.Const(1.0)
+│   %557  = (*)(%555, %556)::ComplexF64
+│   %558  = cse#66::Float64
+│           (cse#160 = (*)(%557, %558))
+│   %560  = cse#159::Float64
+│   %561  = cse#160::ComplexF64
+│           (cse#161 = (+)(%560, %561))
+│   %563  = cse#161::ComplexF64
+│   %564  = cse#13::Matrix{Int64}
+│           (cse#162 = (*)(%563, %564))
+│   %566  = cse#162::Matrix{ComplexF64}
+│   %567  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│           (cse#163 = (QCSym.⊙)(%566, %567))
+│   %569  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %570  = cse#163::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#164 = (QCSym.⊙)(%569, %570))
+│   %572  = cse#64::Matrix{ComplexF64}
+│   %573  = cse#164::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#165 = (QCSym.⊙)(%572, %573))
+│   %575  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %576  = cse#165::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#166 = (QCSym.⊙)(%575, %576))
+│   %578  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %579  = cse#166::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#167 = (QCSym.⊙)(%578, %579))
+│   %581  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %582  = cse#167::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#168 = (QCSym.⊙)(%581, %582))
+│   %584  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %585  = cse#168::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#169 = (QCSym.⊙)(%584, %585))
+│   %587  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %588  = cse#169::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#170 = (QCSym.⊙)(%587, %588))
+│   %590  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %591  = cse#170::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#171 = (QCSym.⊙)(%590, %591))
+│   %593  = cse#64::Matrix{ComplexF64}
+│   %594  = cse#171::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#172 = (QCSym.⊙)(%593, %594))
+│   %596  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %597  = cse#172::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#173 = (QCSym.⊙)(%596, %597))
+│   %599  = cse#55::Matrix{ComplexF64}
+│   %600  = cse#173::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#174 = (QCSym.⊙)(%599, %600))
+│   %602  = cse#158::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %603  = cse#174::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#175 = (+)(%602, %603))
+│   %605  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %606  = cse#175::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#176 = (QCSym.⊙)(%605, %606))
+│   %608  = cse#153::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %609  = cse#176::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %610  = cse#119::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %611  = cse#150::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#177 = (QCSym.⊗)(%608, %609, %610, %611))
+│   %613  = ˍ₋arg1::Vector{Float64}
+│   %614  = Base.getindex(%613, 5)::Float64
+│   %615  = cse#6::Core.Const(1.0)
+│   %616  = (*)(%614, %615)::Float64
+│   %617  = cse#88::Float64
+│           (cse#178 = (*)(%616, %617))
+│   %619  = cse#8::Core.Const(0 - 1im)
+│   %620  = cse#86::Float64
+│   %621  = (*)(%619, %620)::ComplexF64
+│   %622  = ˍ₋arg1::Vector{Float64}
+│   %623  = Base.getindex(%622, 5)::Float64
+│   %624  = (*)(%621, %623)::ComplexF64
+│   %625  = cse#6::Core.Const(1.0)
+│           (cse#179 = (*)(%624, %625))
+│   %627  = cse#178::Float64
+│   %628  = cse#179::ComplexF64
+│           (cse#180 = (+)(%627, %628))
+│   %630  = cse#180::ComplexF64
+│   %631  = cse#13::Matrix{Int64}
+│           (cse#181 = (*)(%630, %631))
+│   %633  = cse#181::Matrix{ComplexF64}
+│   %634  = cse#117::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#182 = (QCSym.⊙)(%633, %634))
+│   %636  = cse#35::Core.Const(-1.0)
+│   %637  = cse#103::Float64
+│   %638  = (*)(%636, %637)::Float64
+│   %639  = ˍ₋arg1::Vector{Float64}
+│   %640  = Base.getindex(%639, 5)::Float64
+│   %641  = (*)(%638, %640)::Float64
+│   %642  = cse#6::Core.Const(1.0)
+│           (cse#183 = (*)(%641, %642))
+│   %644  = cse#37::Core.Const(0 + 1im)
+│   %645  = cse#101::Float64
+│   %646  = (*)(%644, %645)::ComplexF64
+│   %647  = ˍ₋arg1::Vector{Float64}
+│   %648  = Base.getindex(%647, 5)::Float64
+│   %649  = (*)(%646, %648)::ComplexF64
+│   %650  = cse#6::Core.Const(1.0)
+│           (cse#184 = (*)(%649, %650))
+│   %652  = cse#183::Float64
+│   %653  = cse#184::ComplexF64
+│           (cse#185 = (+)(%652, %653))
+│   %655  = cse#185::ComplexF64
+│   %656  = cse#13::Matrix{Int64}
+│           (cse#186 = (*)(%655, %656))
+│   %658  = cse#186::Matrix{ComplexF64}
+│   %659  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│           (cse#187 = (QCSym.⊙)(%658, %659))
+│   %661  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %662  = cse#187::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#188 = (QCSym.⊙)(%661, %662))
+│   %664  = cse#99::Matrix{ComplexF64}
+│   %665  = cse#188::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#189 = (QCSym.⊙)(%664, %665))
+│   %667  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %668  = cse#189::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#190 = (QCSym.⊙)(%667, %668))
+│   %670  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %671  = cse#190::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#191 = (QCSym.⊙)(%670, %671))
+│   %673  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %674  = cse#191::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#192 = (QCSym.⊙)(%673, %674))
+│   %676  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %677  = cse#192::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#193 = (QCSym.⊙)(%676, %677))
+│   %679  = cse#15::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 0.0 + 0.0im])
+│   %680  = cse#193::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#194 = (QCSym.⊙)(%679, %680))
+│   %682  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %683  = cse#194::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#195 = (QCSym.⊙)(%682, %683))
+│   %685  = cse#96::Matrix{ComplexF64}
+│   %686  = cse#195::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#196 = (QCSym.⊙)(%685, %686))
+│   %688  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %689  = cse#196::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#197 = (QCSym.⊙)(%688, %689))
+│   %691  = cse#91::Matrix{ComplexF64}
+│   %692  = cse#197::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#198 = (QCSym.⊙)(%691, %692))
+│   %694  = cse#182::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %695  = cse#198::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#199 = (+)(%694, %695))
+│   %697  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %698  = cse#199::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#200 = (QCSym.⊙)(%697, %698))
+│   %700  = cse#153::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %701  = cse#84::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %702  = cse#200::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %703  = cse#150::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#201 = (QCSym.⊗)(%700, %701, %702, %703))
+│   %705  = cse#35::Core.Const(-1.0)
+│   %706  = cse#123::Float64
+│   %707  = (*)(%705, %706)::Float64
+│   %708  = ˍ₋arg1::Vector{Float64}
+│   %709  = Base.getindex(%708, 7)::Float64
+│   %710  = (*)(%707, %709)::Float64
+│   %711  = cse#6::Core.Const(1.0)
+│           (cse#202 = (*)(%710, %711))
+│   %713  = cse#37::Core.Const(0 + 1im)
+│   %714  = ˍ₋arg1::Vector{Float64}
+│   %715  = Base.getindex(%714, 7)::Float64
+│   %716  = (*)(%713, %715)::ComplexF64
+│   %717  = cse#6::Core.Const(1.0)
+│   %718  = (*)(%716, %717)::ComplexF64
+│   %719  = cse#121::Float64
+│           (cse#203 = (*)(%718, %719))
+│   %721  = cse#202::Float64
+│   %722  = cse#203::ComplexF64
+│           (cse#204 = (+)(%721, %722))
+│   %724  = cse#204::ComplexF64
+│   %725  = cse#13::Matrix{Int64}
+│           (cse#205 = (*)(%724, %725))
+│   %727  = cse#205::Matrix{ComplexF64}
+│   %728  = cse#148::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#206 = (QCSym.⊙)(%727, %728))
+│   %730  = cse#8::Core.Const(0 - 1im)
+│   %731  = cse#136::Float64
+│   %732  = (*)(%730, %731)::ComplexF64
+│   %733  = ˍ₋arg1::Vector{Float64}
+│   %734  = Base.getindex(%733, 7)::Float64
+│   %735  = (*)(%732, %734)::ComplexF64
+│   %736  = cse#6::Core.Const(1.0)
+│           (cse#207 = (*)(%735, %736))
+│   %738  = cse#138::Float64
+│   %739  = ˍ₋arg1::Vector{Float64}
+│   %740  = Base.getindex(%739, 7)::Float64
+│   %741  = (*)(%738, %740)::Float64
+│   %742  = cse#6::Core.Const(1.0)
+│           (cse#208 = (*)(%741, %742))
+│   %744  = cse#207::ComplexF64
+│   %745  = cse#208::Float64
+│           (cse#209 = (+)(%744, %745))
+│   %747  = cse#209::ComplexF64
+│   %748  = cse#13::Matrix{Int64}
+│           (cse#210 = (*)(%747, %748))
+│   %750  = cse#210::Matrix{ComplexF64}
+│   %751  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│           (cse#211 = (QCSym.⊙)(%750, %751))
+│   %753  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %754  = cse#211::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#212 = (QCSym.⊙)(%753, %754))
+│   %756  = cse#134::Matrix{ComplexF64}
+│   %757  = cse#212::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#213 = (QCSym.⊙)(%756, %757))
+│   %759  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %760  = cse#213::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#214 = (QCSym.⊙)(%759, %760))
+│   %762  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %763  = cse#214::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#215 = (QCSym.⊙)(%762, %763))
+│   %765  = cse#131::Matrix{ComplexF64}
+│   %766  = cse#215::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#216 = (QCSym.⊙)(%765, %766))
+│   %768  = cse#56::Core.Const(ComplexF64[1.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %769  = cse#216::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#217 = (QCSym.⊙)(%768, %769))
+│   %771  = cse#126::Matrix{ComplexF64}
+│   %772  = cse#217::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#218 = (QCSym.⊙)(%771, %772))
+│   %774  = cse#206::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %775  = cse#218::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#219 = (+)(%774, %775))
+│   %777  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %778  = cse#219::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#220 = (QCSym.⊙)(%777, %778))
+│   %780  = cse#153::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %781  = cse#84::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %782  = cse#119::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %783  = cse#220::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#221 = (QCSym.⊗)(%780, %781, %782, %783))
+│   %785  = cse#151::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+│   %786  = cse#177::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+│   %787  = cse#201::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+│   %788  = cse#221::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+│           (cse#222 = (+)(%785, %786, %787, %788))
+│           (cse#223 = ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %791  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %792  = cse#25::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#224 = (QCSym.⊙)(%791, %792))
+│   %794  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %795  = cse#224::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#225 = (QCSym.⊙)(%794, %795))
+│   %797  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %798  = cse#225::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#226 = (QCSym.⊙)(%797, %798))
+│   %800  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %801  = cse#226::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#227 = (QCSym.⊙)(%800, %801))
+│   %803  = cse#14::Matrix{ComplexF64}
+│   %804  = cse#227::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#228 = (QCSym.⊙)(%803, %804))
+│   %806  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %807  = cse#41::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#229 = (QCSym.⊙)(%806, %807))
+│   %809  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %810  = cse#229::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#230 = (QCSym.⊙)(%809, %810))
+│   %812  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %813  = cse#230::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#231 = (QCSym.⊙)(%812, %813))
+│   %815  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %816  = cse#231::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#232 = (QCSym.⊙)(%815, %816))
+│   %818  = cse#34::Matrix{ComplexF64}
+│   %819  = cse#232::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#233 = (QCSym.⊙)(%818, %819))
+│   %821  = cse#228::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %822  = cse#233::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#234 = (+)(%821, %822))
+│   %824  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %825  = cse#234::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#235 = (QCSym.⊙)(%824, %825))
+│           (cse#236 = ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %828  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %829  = cse#72::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#237 = (QCSym.⊙)(%828, %829))
+│   %831  = cse#64::Matrix{ComplexF64}
+│   %832  = cse#237::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#238 = (QCSym.⊙)(%831, %832))
+│   %834  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %835  = cse#238::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#239 = (QCSym.⊙)(%834, %835))
+│   %837  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %838  = cse#239::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#240 = (QCSym.⊙)(%837, %838))
+│   %840  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %841  = cse#240::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#241 = (QCSym.⊙)(%840, %841))
+│   %843  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %844  = cse#241::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#242 = (QCSym.⊙)(%843, %844))
+│   %846  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %847  = cse#242::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#243 = (QCSym.⊙)(%846, %847))
+│   %849  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %850  = cse#243::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#244 = (QCSym.⊙)(%849, %850))
+│   %852  = cse#64::Matrix{ComplexF64}
+│   %853  = cse#244::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#245 = (QCSym.⊙)(%852, %853))
+│   %855  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %856  = cse#245::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#246 = (QCSym.⊙)(%855, %856))
+│   %858  = cse#55::Matrix{ComplexF64}
+│   %859  = cse#246::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#247 = (QCSym.⊙)(%858, %859))
+│   %861  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %862  = cse#247::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#248 = (QCSym.⊙)(%861, %862))
+│   %864  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %865  = cse#107::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#249 = (QCSym.⊙)(%864, %865))
+│   %867  = cse#99::Matrix{ComplexF64}
+│   %868  = cse#249::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#250 = (QCSym.⊙)(%867, %868))
+│   %870  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %871  = cse#250::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#251 = (QCSym.⊙)(%870, %871))
+│   %873  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %874  = cse#251::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#252 = (QCSym.⊙)(%873, %874))
+│   %876  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %877  = cse#252::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#253 = (QCSym.⊙)(%876, %877))
+│   %879  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %880  = cse#253::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#254 = (QCSym.⊙)(%879, %880))
+│   %882  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %883  = cse#254::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#255 = (QCSym.⊙)(%882, %883))
+│   %885  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %886  = cse#255::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#256 = (QCSym.⊙)(%885, %886))
+│   %888  = cse#96::Matrix{ComplexF64}
+│   %889  = cse#256::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#257 = (QCSym.⊙)(%888, %889))
+│   %891  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %892  = cse#257::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#258 = (QCSym.⊙)(%891, %892))
+│   %894  = cse#91::Matrix{ComplexF64}
+│   %895  = cse#258::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#259 = (QCSym.⊙)(%894, %895))
+│   %897  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %898  = cse#259::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#260 = (QCSym.⊙)(%897, %898))
+│   %900  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %901  = cse#142::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#261 = (QCSym.⊙)(%900, %901))
+│   %903  = cse#134::Matrix{ComplexF64}
+│   %904  = cse#261::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#262 = (QCSym.⊙)(%903, %904))
+│   %906  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %907  = cse#262::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#263 = (QCSym.⊙)(%906, %907))
+│   %909  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %910  = cse#263::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#264 = (QCSym.⊙)(%909, %910))
+│   %912  = cse#131::Matrix{ComplexF64}
+│   %913  = cse#264::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#265 = (QCSym.⊙)(%912, %913))
+│   %915  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %916  = cse#265::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#266 = (QCSym.⊙)(%915, %916))
+│   %918  = cse#126::Matrix{ComplexF64}
+│   %919  = cse#266::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#267 = (QCSym.⊙)(%918, %919))
+│   %921  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %922  = cse#267::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#268 = (QCSym.⊙)(%921, %922))
+│   %924  = cse#235::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %925  = cse#248::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %926  = cse#260::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %927  = cse#268::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#269 = (QCSym.⊗)(%924, %925, %926, %927))
+│   %929  = cse#34::Matrix{ComplexF64}
+│   %930  = cse#227::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#270 = (QCSym.⊙)(%929, %930))
+│   %932  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %933  = cse#270::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#271 = (QCSym.⊙)(%932, %933))
+│   %935  = cse#157::Matrix{ComplexF64}
+│   %936  = cse#246::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#272 = (QCSym.⊙)(%935, %936))
+│   %938  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %939  = cse#163::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#273 = (QCSym.⊙)(%938, %939))
+│   %941  = cse#64::Matrix{ComplexF64}
+│   %942  = cse#273::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#274 = (QCSym.⊙)(%941, %942))
+│   %944  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %945  = cse#274::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#275 = (QCSym.⊙)(%944, %945))
+│   %947  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %948  = cse#275::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#276 = (QCSym.⊙)(%947, %948))
+│   %950  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %951  = cse#276::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#277 = (QCSym.⊙)(%950, %951))
+│   %953  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %954  = cse#277::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#278 = (QCSym.⊙)(%953, %954))
+│   %956  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %957  = cse#278::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#279 = (QCSym.⊙)(%956, %957))
+│   %959  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %960  = cse#279::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#280 = (QCSym.⊙)(%959, %960))
+│   %962  = cse#64::Matrix{ComplexF64}
+│   %963  = cse#280::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#281 = (QCSym.⊙)(%962, %963))
+│   %965  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %966  = cse#281::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#282 = (QCSym.⊙)(%965, %966))
+│   %968  = cse#55::Matrix{ComplexF64}
+│   %969  = cse#282::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#283 = (QCSym.⊙)(%968, %969))
+│   %971  = cse#272::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %972  = cse#283::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#284 = (+)(%971, %972))
+│   %974  = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %975  = cse#284::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#285 = (QCSym.⊙)(%974, %975))
+│   %977  = cse#271::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %978  = cse#285::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %979  = cse#260::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %980  = cse#268::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#286 = (QCSym.⊗)(%977, %978, %979, %980))
+│   %982  = cse#181::Matrix{ComplexF64}
+│   %983  = cse#258::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#287 = (QCSym.⊙)(%982, %983))
+│   %985  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %986  = cse#187::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#288 = (QCSym.⊙)(%985, %986))
+│   %988  = cse#99::Matrix{ComplexF64}
+│   %989  = cse#288::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#289 = (QCSym.⊙)(%988, %989))
+│   %991  = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %992  = cse#289::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#290 = (QCSym.⊙)(%991, %992))
+│   %994  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %995  = cse#290::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#291 = (QCSym.⊙)(%994, %995))
+│   %997  = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %998  = cse#291::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#292 = (QCSym.⊙)(%997, %998))
+│   %1000 = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %1001 = cse#292::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#293 = (QCSym.⊙)(%1000, %1001))
+│   %1003 = cse#223::Core.Const(ComplexF64[0.0 + 0.0im 0.0 + 0.0im; 0.0 + 0.0im 1.0 + 0.0im])
+│   %1004 = cse#293::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#294 = (QCSym.⊙)(%1003, %1004))
+│   %1006 = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %1007 = cse#294::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#295 = (QCSym.⊙)(%1006, %1007))
+│   %1009 = cse#96::Matrix{ComplexF64}
+│   %1010 = cse#295::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#296 = (QCSym.⊙)(%1009, %1010))
+│   %1012 = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %1013 = cse#296::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#297 = (QCSym.⊙)(%1012, %1013))
+│   %1015 = cse#91::Matrix{ComplexF64}
+│   %1016 = cse#297::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#298 = (QCSym.⊙)(%1015, %1016))
+│   %1018 = cse#287::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %1019 = cse#298::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#299 = (+)(%1018, %1019))
+│   %1021 = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %1022 = cse#299::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#300 = (QCSym.⊙)(%1021, %1022))
+│   %1024 = cse#271::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %1025 = cse#248::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %1026 = cse#300::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %1027 = cse#268::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#301 = (QCSym.⊗)(%1024, %1025, %1026, %1027))
+│   %1029 = cse#205::Matrix{ComplexF64}
+│   %1030 = cse#266::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#302 = (QCSym.⊙)(%1029, %1030))
+│   %1032 = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %1033 = cse#211::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#303 = (QCSym.⊙)(%1032, %1033))
+│   %1035 = cse#134::Matrix{ComplexF64}
+│   %1036 = cse#303::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#304 = (QCSym.⊙)(%1035, %1036))
+│   %1038 = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %1039 = cse#304::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#305 = (QCSym.⊙)(%1038, %1039))
+│   %1041 = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %1042 = cse#305::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#306 = (QCSym.⊙)(%1041, %1042))
+│   %1044 = cse#131::Matrix{ComplexF64}
+│   %1045 = cse#306::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#307 = (QCSym.⊙)(%1044, %1045))
+│   %1047 = cse#236::Core.Const(ComplexF64[0.0 + 0.0im 1.0 + 0.0im; 1.0 + 0.0im 0.0 + 0.0im])
+│   %1048 = cse#307::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#308 = (QCSym.⊙)(%1047, %1048))
+│   %1050 = cse#126::Matrix{ComplexF64}
+│   %1051 = cse#308::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#309 = (QCSym.⊙)(%1050, %1051))
+│   %1053 = cse#302::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %1054 = cse#309::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#310 = (+)(%1053, %1054))
+│   %1056 = cse#1::Core.Const(ComplexF64[0.7071067811865475 + 0.0im 0.7071067811865475 + 0.0im; 0.7071067811865475 + 0.0im -0.7071067811865475 + 0.0im])
+│   %1057 = cse#310::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#311 = (QCSym.⊙)(%1056, %1057))
+│   %1059 = cse#271::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %1060 = cse#248::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %1061 = cse#260::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│   %1062 = cse#311::Core.PartialStruct(StaticArraysCore.MMatrix{2, 2, ComplexF64, 4}, Any[NTuple{4, ComplexF64}])
+│           (cse#312 = (QCSym.⊗)(%1059, %1060, %1061, %1062))
+│   %1064 = cse#269::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+│   %1065 = cse#286::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+│   %1066 = cse#301::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+│   %1067 = cse#312::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+│           (cse#313 = (+)(%1064, %1065, %1066, %1067))
+│   %1069 = cse#222::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+│   %1070 = cse#313::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+│           (cse#314 = (+)(%1069, %1070))
+│   %1072 = cse#314::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+│           (val@_4 = %1072)
+│           nothing
+│   %1075 = val@_4::StaticArraysCore.SizedMatrix{16, 16, ComplexF64, 2, Matrix{ComplexF64}}
+└──         return %1075
+
+nothing

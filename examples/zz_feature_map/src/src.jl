@@ -126,7 +126,10 @@ function get_val_for_sym(s, qc)
         end
     end
     if isequal(s.name, :I)
-        return StaticArrays.SMatrix{2, 2}([1 0; 0 1])
+        # ComplexF64, not the Int64 that `SMatrix{2,2}([1 0; 0 1])` infers: every gate
+        # matrix in QCSym is ComplexF64, and one Int64 factor makes the Kronecker factor
+        # tuples heterogeneous. That alone cost ~40% of the allocation per sample.
+        return StaticArrays.SMatrix{2, 2, ComplexF64}([1 0; 0 1])
     end
     return nothing
 end

@@ -1,5 +1,6 @@
 import LinearAlgebra
 import StaticArrays
+import Kronecker
 import Base
 
 function _promote_shape_nD(a::Symbolics.Arr{T}, b::Symbolics.Arr{T2}) where {T, T2}
@@ -47,15 +48,92 @@ const _MAX_STATIC_KRON_DIM = 16
 _widen_if_static(x::StaticArrays.StaticArray) = Array(x)
 _widen_if_static(x) = x
 
+"""
+    LazyStep{T} <: AbstractMatrix{T}
+
+A `2^n x 2^n` step operator kept in factored form. Under `gcol2tree_col_1` with
+`distribute=false` the tree is `step_d ⊙ (... ⊙ (step_1 applied to a column))`, so every
+step is only ever applied to a `2^n` state vector. Building the step's matrix first costs
+`4^n` for nothing: `kron(A_1,...,A_n) * v` is the vec trick, `O(n * 2^n)` time and `O(2^n)`
+memory. `Kronecker.jl` implements that trick; what it has no notion of is a lazy *sum*,
+which is what a two-qubit gate's `|0><0| ⊗ I + |1><1| ⊗ U` decomposition produces, hence
+[`SumStep`](@ref).
+
+These are `AbstractMatrix`, so anything that genuinely wants the dense step still gets it
+via `collect`/indexing -- the point is only that nothing builds it by accident.
+"""
+abstract type LazyStep{T} <: AbstractMatrix{T} end
+
+"""
+    KronStep(kp)
+
+One `A_1 ⊗ ... ⊗ A_n` held as a lazy `Kronecker.jl` product. See [`LazyStep`](@ref).
+"""
+struct KronStep{T, K} <: LazyStep{T}
+    kp::K
+end
+KronStep(kp) = KronStep{eltype(kp), typeof(kp)}(kp)
+
+"""
+    SumStep(terms)
+
+A sum of step operators, kept unevaluated so that `(A + B) * v` is `A*v + B*v` -- two vec
+tricks and a vector add, rather than two `2^n x 2^n` matrices and a matrix add.
+
+`terms` is a **tuple**, not a vector: it has to be concretely typed or `_apply` infers as
+`Any`, every application becomes a dynamic dispatch, and the generated sampling function
+boxes each intermediate. A two-qubit gate contributes two summands, so these tuples stay
+short; a step holding many two-qubit gates would instead cost compile time.
+"""
+struct SumStep{T, TT<:Tuple} <: LazyStep{T}
+    terms::TT
+end
+SumStep(terms::Tuple) = SumStep{promote_type(map(eltype, terms)...), typeof(terms)}(terms)
+SumStep(terms) = SumStep(Tuple(terms))
+
+Base.size(s::KronStep) = size(s.kp)
+Base.size(s::SumStep)  = size(first(s.terms))
+Base.getindex(s::KronStep, i::Int, j::Int) = s.kp[i, j]
+Base.getindex(s::SumStep, i::Int, j::Int)  = sum(t -> t[i, j], s.terms)
+# Materialise through the factors rather than element by element.
+Base.collect(s::KronStep) = collect(s.kp)
+Base.collect(s::SumStep)  = sum(collect, s.terms)
+
+# Applying a step to a state vector: the whole reason these types exist.
+_apply(a::KronStep, v::AbstractVector) = a.kp * v
+_apply(a::AbstractMatrix, v::AbstractVector) = a * v
+# Recursive over the tuple rather than `sum(generator)`, so the result type is inferred.
+_apply(a::SumStep, v::AbstractVector) = _apply_sum(v, a.terms...)
+_apply_sum(v, t) = _apply(t, v)
+_apply_sum(v, t, rest...) = _apply(t, v) + _apply_sum(v, rest...)
+
+_factor_sizes(k) = map(size, Kronecker.getallfactors(k))
+
+"""
+    _LAZY_STEP_MIN_DIM
+
+Output dimension above which `⊗` of square factors returns a [`LazyStep`](@ref) instead of
+a dense matrix. Staying factored is asymptotically right -- `O(n*2^n)` per step instead of
+`O(4^n)` -- but it carries a constant: the vec trick makes `n` strided passes over the
+state, while a dense step is one BLAS call, and BLAS wins while the matrix still fits in
+cache. Raise this to force dense evaluation, set it to 0 to always stay factored.
+"""
+const _LAZY_STEP_MIN_DIM = Ref(16)
+
 _kron_size_capped(xs::AbstractArray{<:Number}...) = begin
     outdim = prod(size(x, 1) for x in xs)
     if outdim > _MAX_STATIC_KRON_DIM
-        out = Matrix{ComplexF64}(undef, outdim, prod(size(x, 2) for x in xs))
         #return LinearAlgebra.kron(map(_widen_if_static, xs)...)
-        for i in eachindex(xs)
-            out = LinearAlgebra.kron!(out, xs[i])
+        # Several matrix factors: keep them factored, so a step applied to a state vector
+        # never materialises 2^n x 2^n. Vector factors are the col_1 leaves, whose kron is
+        # the 2^n state vector itself and has to be dense.
+        if outdim > _LAZY_STEP_MIN_DIM[] && length(xs) > 1 && all(x -> ndims(x) == 2, xs)
+            return KronStep(Kronecker.kronecker(xs...))
         end
-        return out
+        out = LinearAlgebra.kron(xs...)
+        # Array, not Matrix: under col_1 the factors are 2-element columns and the kron is
+        # a 2^n vector, which Matrix{ComplexF64} cannot construct.
+        return Array{ComplexF64}(out)
     end
     return LinearAlgebra.kron(xs...)
 end
@@ -160,9 +238,52 @@ end
 #     return StaticArrays.SMatrix{2, 2, ComplexF64}(x1 * x2)
 # end
 
-⊙(x1::T, x2::T2) where {T, T2 <: Union{AbstractMatrix{<:Number}, StaticArrays.SMatrix{2, 2, <:Number}, StaticArrays.MMatrix{2, 2, <:Number}}} = begin
-    return StaticArrays.MMatrix{2, 2, ComplexF64}(x1 * x2)
+# A distributed tree (gcol2tree2 with distribute=true) only ever multiplies the 2x2
+# factors of one qubit line, so the StaticArray keeps those chains allocation-free. An
+# undistributed tree instead multiplies whole step unitaries, which are 2^n x 2^n, so the
+# size has to be checked rather than assumed -- forcing MMatrix{2,2} here is what used to
+# restrict the runtime to the distributed form.
+⊙(x1::AbstractMatrix{<:Number}, x2::AbstractMatrix{<:Number}) = begin
+    if size(x1) == (2, 2) && size(x2) == (2, 2)
+        return StaticArrays.MMatrix{2, 2, ComplexF64}(x1 * x2)
+    end
+    return x1 * x2
 end
+
+# Chains of three or more factors: _first_column builds n-ary ⊙ nodes, and an
+# undistributed step chain is n-ary too. Folding right matches the nesting the binary
+# methods produce, so both spellings of the same chain evaluate identically.
+⊙(xs::Vararg{AbstractMatrix{<:Number}}) = foldr(⊙, xs)
+
+# --- lazy steps -------------------------------------------------------------------
+# A chain under col_1 ends in a state vector, so this is the method that actually runs
+# for every step of the circuit; it is what keeps the cost at O(depth * 2^n).
+⊙(a::LazyStep, v::AbstractVector{<:Number}) = _apply(a, v)
+
+# Two steps composed without a vector between them: a step holding both single- and
+# two-qubit gates builds ⊙(sq_step, mq_step). Every factor here is 2x2, so the mixed
+# product rule kron(A,B)*kron(C,D) = kron(A*C, B*D) applies and the result stays factored.
+# The size check is what Kronecker.jl's own `*` would otherwise throw on.
+function ⊙(a::KronStep, b::KronStep)
+    if _factor_sizes(a.kp) == _factor_sizes(b.kp)
+        return KronStep(a.kp * b.kp)
+    end
+    return collect(a) * collect(b)
+end
+⊙(a::KronStep, b::SumStep) = SumStep(map(t -> ⊙(a, t), b.terms))
+⊙(a::SumStep, b::KronStep) = SumStep(map(t -> ⊙(t, b), a.terms))
+⊙(a::SumStep, b::SumStep)  = SumStep(_cross(a.terms, b.terms))
+
+_flatten_tuple(t::Tuple) = reduce((x, y) -> (x..., y...), t; init=())
+_cross(as::Tuple, bs::Tuple) = _flatten_tuple(map(x -> map(y -> ⊙(x, y), bs), as))
+
+# A two-qubit gate's two ⊗ branches meet here. Base's `+(::AbstractArray...)` broadcasts,
+# which would materialise both operands, so LazyStep needs its own -- including the
+# vararg form, or a three-way sum would fall back to Base and densify.
+Base.:+(a::LazyStep, b::LazyStep) = SumStep((a, b))
+Base.:+(a::LazyStep, b::LazyStep, cs::LazyStep...) = SumStep((a, b, cs...))
+Base.:+(a::LazyStep, b::AbstractMatrix) = SumStep((a, b))
+Base.:+(a::AbstractMatrix, b::LazyStep) = SumStep((a, b))
 
 #const one_2x2_mmatrix_complex = StaticArrays.MMatrix{2, 2, ComplexF64}([1 0; 0 1])
 
@@ -240,6 +361,23 @@ function const_integer(n)
     return nothing
 end
 
+# The value `SymbolicUtils.term`'s default `shape` keyword computes, folded pairwise
+# over a vector. The default is `promote_shape(+, shape.(args)...)`, which broadcasts
+# over the splatted argument *tuple* and then splats the result again; differentiating
+# a sum of thousands of summands makes that, rather than the differentiation, the whole
+# cost. `shape` is called on exactly the values the default would have called it on, so
+# the result is the same -- and `term` is hash-consed, so the term is the same object.
+function _sum_shape(terms)
+    sh = SymbolicUtils.shape(terms[1])
+    for i in 2:length(terms)
+        sh = SymbolicUtils.promote_shape(+, sh, SymbolicUtils.shape(terms[i]))
+    end
+    return sh
+end
+
+_sum_term(terms) = SymbolicUtils.term(+, terms...;
+    type=QCSym.SymbolicUtils.SymReal, shape=_sum_shape(terms))
+
 function kron_derivative(ex, v)
     depends_on(ex, v) || return 0
     exv = Symbolics.value(ex)
@@ -248,7 +386,7 @@ function kron_derivative(ex, v)
     args = map(Symbolics.wrap, SymbolicUtils.arguments(exv))
     if op === (+)
         #return sum(kron_derivative(arg, v) for arg in args)
-        return SymbolicUtils.term(+, (kron_derivative(arg, v) for arg in args)...; type=QCSym.SymbolicUtils.SymReal)
+        return _sum_term(Any[kron_derivative(arg, v) for arg in args])
     elseif op === (*) || is_matop(op)
         # product rule for multilinear ops, preserving argument order
         terms = Any[]
@@ -266,7 +404,7 @@ function kron_derivative(ex, v)
         elseif length(terms) == 1
             return terms[1]
         else
-            return SymbolicUtils.term(+, terms...; type=QCSym.SymbolicUtils.SymReal)
+            return _sum_term(terms)
         end
     elseif op === (^)
         X, n = args

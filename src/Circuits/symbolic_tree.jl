@@ -152,7 +152,10 @@ function _sum_of_terms(terms)
     isempty(terms) && error("every summand was pruned as zero, which cannot happen for a "*
                             "circuit unitary: the zero test dropped a non-zero term")
     length(terms) == 1 && return terms[1]
-    return QCSym.SymbolicUtils.term(+, terms...; type=QCSym.SymbolicUtils.SymReal)
+    # `QCSym._sum_term` passes `shape` explicitly, which is what keeps the build
+    # tractable: left to its default it dominated everything else, 210 s of the 216 s
+    # spent building the 4-layer 2-qubit feature map tree.
+    return QCSym._sum_term(terms)
 end
 
 # Returns nothing when the summand is structurally zero, so the caller can drop it.
@@ -251,24 +254,50 @@ intermediates grow as `2^n` instead of `2^n x 2^n`.
 The result is the unitary applied to |0...0>, i.e. the state of a circuit started in
 the all-zero basis state, as a length-`2^n` vector.
 """
-function gcol2tree_col_1(gcol::GateCollection; prune_zeros::Bool=true)
-    return _first_column(gcol2tree2(gcol; prune_zeros=prune_zeros))
+function gcol2tree_col_1(gcol::GateCollection; prune_zeros::Bool=true, distribute::Bool=true)
+    return _first_column(gcol2tree2(gcol; prune_zeros=prune_zeros, distribute=distribute))
 end
 
 """
-    gcol2tree2(gcol::GateCollection; prune_zeros=true)
+    gcol2tree2(gcol::GateCollection; prune_zeros=true, distribute=true)
 
 Build the symbolic expression tree of the whole circuit unitary.
 
-Each two-qubit gate turns the running expression into a sum, and the next one multiplies
-every summand with every summand, so the term count doubles per two-qubit gate. With
-`prune_zeros` the summands that are structurally zero are dropped as they are formed,
-which is what keeps the growth tractable: they are the large majority, and pruning them
-while accumulating means the intermediate expression never holds them. See
-[`_ProjectorSymbols`](@ref) for the test used. Pass `prune_zeros=false` to get the
-unpruned, mathematically identical expression for cross-checking.
+With `distribute=true` (the default) each two-qubit gate turns the running expression into
+a sum, and the next one multiplies every summand with every summand, so the term count
+doubles per two-qubit gate. With `prune_zeros` the summands that are structurally zero are
+dropped as they are formed, which is what keeps that growth tractable: they are the large
+majority, and pruning them while accumulating means the intermediate expression never
+holds them. See [`_ProjectorSymbols`](@ref) for the test used. Pass `prune_zeros=false` to
+get the unpruned, mathematically identical expression for cross-checking.
+
+# Distributed versus undistributed
+
+Distributing buys a tree whose every leaf-level operation is on a 2x2 matrix, so evaluating
+it never builds a `2^n x 2^n` intermediate. It pays for that with a summand count
+exponential in the number of two-qubit gates, and pruning cannot change that exponent --
+the surviving summands are genuinely non-zero, they are merely linearly *dependent*, which
+no local test can see. That is the wrong exponential to pay: for two qubits the unitary is
+a 4x4 matrix, so by the Van Loan rearrangement it is exactly `sum(A_k ⊗ B_k)` with at most
+four terms no matter how deep the circuit, while the distributed builder generates
+thousands and then exhausts the stack.
+
+`distribute=false` keeps the product of sums nested instead of multiplying it out:
+
+    U = step_d ⊙ ... ⊙ step_1
+
+with each step a `⊗` or a two-term sum. The tree is then `O(depth * qubits)` -- linear in
+the circuit, with no dependence on the number of two-qubit gates -- and `kron_derivative`
+stays linear on it, since the product rule over a chain of `d` factors yields `d` terms.
+The cost moves to evaluation, which multiplies `2^n x 2^n` step unitaries, i.e. `O(depth *
+4^n)` numeric work (`O(depth * 2^n)` under [`gcol2tree_col_1`](@ref), which contracts onto
+a column instead). That trades an exponential in gate count for the `2^n` inherent to
+simulating a circuit at all, which is the better trade at any realistic size.
+
+`prune_zeros` is ignored when `distribute=false`: nothing is multiplied out, so no
+structurally-zero summand is ever formed.
 """
-function gcol2tree2(gcol::GateCollection; prune_zeros::Bool=true)
+function gcol2tree2(gcol::GateCollection; prune_zeros::Bool=true, distribute::Bool=true)
     stepwise_gates = _extract_gates_stepwise(gcol)
     steps = sort(collect(keys(stepwise_gates)))
     projs = prune_zeros ? _projector_symbols(stepwise_gates) : nothing
@@ -343,16 +372,21 @@ function gcol2tree2(gcol::GateCollection; prune_zeros::Bool=true)
             U_step = U_step_mq
         end
         if !isempty(sq_gates) && !isempty(mq_gates)
-            U_step = _mul_unknown(U_step_sq, U_step_mq, projs)
+            # Same operand order either way; ⊙ just records the product instead of
+            # multiplying it out.
+            U_step = distribute ? _mul_unknown(U_step_sq, U_step_mq, projs) :
+                                  QCSym.:⊙(U_step_sq, U_step_mq)
         end
         #println("U_step: ", U_step)
         if U === nothing
             U = U_step
-        else
+        elseif distribute
             U = _mul_unknown(U_step, U, projs)
             U === nothing && error("the whole step product was pruned as zero, which cannot "*
                                    "happen for a circuit unitary: the zero test dropped a "*
                                    "non-zero term")
+        else
+            U = QCSym.:⊙(U_step, U)
         end
         #println("U: ")
         #println(U)

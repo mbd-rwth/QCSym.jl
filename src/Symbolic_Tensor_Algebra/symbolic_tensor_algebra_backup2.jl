@@ -1,0 +1,410 @@
+import LinearAlgebra
+import StaticArrays
+import Kronecker
+import Base
+
+function _promote_shape_nD(a::Symbolics.Arr{T}, b::Symbolics.Arr{T2}) where {T, T2}
+    sizea = size(a)
+    sizeb = size(b)
+    dimsa = length(sizea)
+    dimsb = length(sizeb)
+    dimsout, dimsother, sizesmore = dimsa>=dimsb ? (dimsa, dimsb, sizea) : (dimsb, dimsa, sizeb)
+
+    sout = zeros(Int, dimsout)
+    for i in 1:dimsother
+        sout[i] = sizea[i] * sizeb[i]
+    end
+    for i in dimsout-dimsother+1:dimsout
+        sout[i] = sizesmore[i]
+    end
+
+    return Tuple(sout)
+end
+
+
+⊗(x1, x2) = begin
+    return SymbolicUtils.term(⊗, x1, x2; type=SymbolicUtils.SymReal)
+end
+
+⊗(x1::Complex{Symbolics.Num}, x2) = begin
+    return SymbolicUtils.term(⊗, x1, x2; type=SymbolicUtils.SymReal)
+end
+⊗(x1, x2::Complex{Symbolics.Num}) = begin
+    return SymbolicUtils.term(⊗, x1, x2; type=SymbolicUtils.SymReal)
+end
+⊗(xs::Vararg{Any}) = begin
+    return SymbolicUtils.term(⊗, xs...; type=SymbolicUtils.SymReal)
+end
+
+# LinearAlgebra.kron on StaticArrays.StaticArray operands returns another
+# StaticArray, fully unrolled at compile time. That is a big win while the
+# operands are small (single-qubit 2x2 factors), but the *output* dimension of
+# ⊗ grows with qubit count (2^n), so staying static past a handful of qubits
+# would blow up compile time and code size instead of avoiding allocations.
+# Widen any static operands back to a regular Array before kron once the
+# combined output size would exceed this bound.
+const _MAX_STATIC_KRON_DIM = 16
+
+_widen_if_static(x::StaticArrays.StaticArray) = Array(x)
+_widen_if_static(x) = x
+
+_kron_size_capped(xs::AbstractArray{<:Number}...) = begin
+    outdim = prod(size(x, 1) for x in xs)
+    if outdim > _MAX_STATIC_KRON_DIM
+        #return LinearAlgebra.kron(map(_widen_if_static, xs)...)
+        out = LinearAlgebra.kron(xs...)
+        # Array, not Matrix: under col_1 the factors are 2-element columns and the kron is
+        # a 2^n vector, which Matrix{ComplexF64} cannot construct.
+        return Array{ComplexF64}(out)
+    end
+    return LinearAlgebra.kron(xs...)
+end
+
+⊗(xs::Vararg{AbstractArray{<:Number}}) = begin
+    return _kron_size_capped(xs...)
+end
+
+⊗(x1::Number, x2::Number) = begin
+    return x1 * x2
+end
+
+⊗(x1::AbstractArray{<:Number}, x2::AbstractArray{<:Number}) = begin
+    return _kron_size_capped(x1, x2)
+end
+
+
+# I_Gate_Filler places this reserved symbol on every untouched qubit line at every
+# step (see Gates.I_Gate_Filler). ⊙ with it is always a structural no-op, so fold it
+# away at construction time instead of emitting a dead matrix multiply into the tree.
+_is_identity_filler(x) = SymbolicUtils.issym(x) && Symbolics.getname(x) === :I
+
+⊙(x1::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}, x2::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}) = begin
+    _is_identity_filler(x1) && return x2
+    _is_identity_filler(x2) && return x1
+    return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal, shape=(1:2, 1:2))
+end
+
+⊙(x1::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}, x2::Union{Symbolics.Num, Complex{Symbolics.Num}}) = begin
+    _is_identity_filler(x1) && return x2
+    return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal, shape=(1:2, 1:2))
+end
+
+⊙(x1::Union{Symbolics.Num, Complex{Symbolics.Num}}, x2::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}) = begin
+    _is_identity_filler(x2) && return x1
+    return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal, shape=(1:2, 1:2))
+end
+
+⊙(x1::Union{Symbolics.Num, Complex{Symbolics.Num}}, x2::Union{Symbolics.Num, Complex{Symbolics.Num}}) = begin
+    return SymbolicUtils.term(⊙, x1, x2; type=SymbolicUtils.SymReal, shape=(1:2, 1:2))
+end
+
+# ⊙(xs::Vararg{<:Union{Symbolics.Num, Complex{Symbolics.Num}}}) = begin
+#     println("⊙ vararg2 called with ", length(xs), " args")
+#     return SymbolicUtils.term(⊙, xs; type=SymbolicUtils.SymReal)
+# end
+
+# ⊙(xs::Vararg{SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}}) = begin
+#     println("⊙ vararg called with ", length(xs), " args")
+#     return SymbolicUtils.term(⊙, (xxs for xxs in xs if !_is_identity_filler(xxs))...; type=SymbolicUtils.SymReal)
+# end
+
+# ⊙(xs::AbstractMatrix...) = begin
+#     return *(xs...)
+# end
+
+# First column of a factor. Column 1 of a Kronecker product is the Kronecker
+# product of the factors' first columns, and column 1 of a matrix chain only
+# needs the first column of its rightmost factor, so wrapping the rightmost
+# (earliest step) factor of every per-qubit chain in col_1 turns a tree for the
+# whole unitary into a tree for its first column, without ever forming a
+# 2^n x 2^n intermediate. See Circuits.gcol2tree_col_1.
+col_1(x) = begin
+    return SymbolicUtils.term(col_1, x; type=SymbolicUtils.SymReal, shape=(1:2, 1:1))
+end
+
+col_1(x::AbstractMatrix{<:Number}) = begin
+    return x[:, 1]
+end
+
+col_1(x::AbstractVector{<:Number}) = x
+
+col_1(x::Number) = x
+
+⊙(x1::Number, x2::Number) = begin
+    return x1 * x2
+end
+
+#⊙(x1::AbstractMatrix{<:Number}, x2::AbstractMatrix{<:Number}) = begin
+#    return x1 * x2
+#end
+
+⊙(x1::Number, x2::AbstractMatrix{<:Number}) = begin
+    return x1 * x2
+end
+
+# A col_1 factor only ever sits at the right end of a chain, so the remaining
+# factors keep multiplying onto a column instead of widening back to a matrix.
+⊙(x1::AbstractMatrix{<:Number}, x2::AbstractVector{<:Number}) = begin
+    return x1 * x2
+end
+
+⊙(x1::Number, x2::AbstractVector{<:Number}) = begin
+    return x1 * x2
+end
+
+⊙(x1::AbstractMatrix{<:Number}, x2::Number) = begin
+    return x1 * x2
+end
+
+# ⊙(x1::AbstractMatrix{<:Number}, x2::StaticArrays.SMatrix{2, 2, ComplexF64}) = begin
+#     return StaticArrays.SMatrix{2, 2, ComplexF64}(x1 * x2)
+# end
+
+# A distributed tree (gcol2tree2 with distribute=true) only ever multiplies the 2x2
+# factors of one qubit line, so the StaticArray keeps those chains allocation-free. An
+# undistributed tree instead multiplies whole step unitaries, which are 2^n x 2^n, so the
+# size has to be checked rather than assumed -- forcing MMatrix{2,2} here is what used to
+# restrict the runtime to the distributed form.
+⊙(x1::AbstractMatrix{<:Number}, x2::AbstractMatrix{<:Number}) = begin
+    if size(x1) == (2, 2) && size(x2) == (2, 2)
+        return StaticArrays.MMatrix{2, 2, ComplexF64}(x1 * x2)
+    end
+    return x1 * x2
+end
+
+# Chains of three or more factors: _first_column builds n-ary ⊙ nodes, and an
+# undistributed step chain is n-ary too. Folding right matches the nesting the binary
+# methods produce, so both spellings of the same chain evaluate identically.
+⊙(xs::Vararg{AbstractMatrix{<:Number}}) = foldr(⊙, xs)
+
+#const one_2x2_mmatrix_complex = StaticArrays.MMatrix{2, 2, ComplexF64}([1 0; 0 1])
+
+#⊙(xs::Vararg{AbstractMatrix{<:Number}}) = begin
+# ⊙(xs::Tuple{<:Union{AbstractMatrix{<:Number}, Symbolics.Num, Complex{Symbolics.Num}, SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}}}) = begin
+#     #return *(xs...)
+#     if size(xs[1]) == (2, 2)
+#         out = one_2x2_mmatrix_complex
+#     else
+#         out = one(Matrix{ComplexF64}, size(xs[1], 1), size(xs[1], 2))
+#     end
+#     for i in eachindex(xs)
+#         out = LinearAlgebra.mul!(out, out, xs[i])
+#     end
+    
+#     return out
+# end
+
+# ⊙(xs::Vararg{<:Union{AbstractMatrix{<:Number}, Symbolics.Num, Complex{Symbolics.Num}, SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}}}) = begin
+#     return SymbolicUtils.term(⊙, xs...; type=SymbolicUtils.SymReal)
+# end
+
+#Symbolics.@register_symbolic ⊙(x1, x2) false
+
+# ⊙(xs::Vararg{Any}) = begin
+#     return SymbolicUtils.term(⊙, xs...; type=SymbolicUtils.SymReal)
+# end
+
+# Base.:+(xs::Vararg{SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}}) = begin
+#     return SymbolicUtils.term(+, xs...; type=SymbolicUtils.SymReal)
+# end
+
+# function Base.:*(a::StaticArrays.SArray{Tuple{2, 2}, Complex{Float64}, 2, 4}, b::Matrix{ComplexF64})
+#     if size(b) == (2, 2)
+#         return StaticArrays.SMatrix{2, 2, ComplexF64}(a * StaticArrays.MMatrix{2, 2, ComplexF64}(b))
+#     else
+#         return Matrix{ComplexF64}(a) * b        
+#     end
+# end
+# function Base.:*(a::Matrix{ComplexF64}, b::StaticArrays.SArray{Tuple{2, 2}, Complex{Float64}, 2, 4})
+#     if size(a) == (2, 2)
+#         return StaticArrays.SMatrix{2, 2, ComplexF64}(StaticArrays.MMatrix{2, 2, ComplexF64}(a) * b)
+#     else
+#         return a * Matrix{ComplexF64}(b)
+#     end
+# end
+
+SymbolicUtils.islike(a::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}, ::Type{Number}) = true
+
+# col_1 is linear, so kron_derivative's multilinear product rule differentiates
+# it correctly as the one-argument case: d(col_1(X)) = col_1(dX).
+is_matop(f) = f === (⊗) || f === (⊙) || f === (col_1)
+
+depends_on(ex, v) = begin
+    if any(isequal(Symbolics.value(v)), Symbolics.get_variables(ex))
+        return true
+    elseif SymbolicUtils.isterm(ex)
+        return isequal(ex, v) || any([depends_on(exx, v) for exx in ex.args])
+    elseif SymbolicUtils.isconst(ex)
+        return isequal(ex, v) || isequal(Symbolics.value(ex), v)
+    elseif SymbolicUtils.issym(ex)
+        return isequal(ex, v)
+    else
+        return false#isequal(ex, v)
+    end
+end
+
+has_matop(ex) =
+    SymbolicUtils.iscall(ex) && (is_matop(SymbolicUtils.operation(ex)) || any(has_matop ∘ Symbolics.value, SymbolicUtils.arguments(ex)))
+
+function const_integer(n)
+    nv = SymbolicUtils.unwrap_const(Symbolics.value(n))
+    nv isa Integer && return Int(nv)
+    nv isa Union{AbstractFloat, Rational} && isinteger(nv) && return Int(nv)
+    return nothing
+end
+
+# The value `SymbolicUtils.term`'s default `shape` keyword computes, folded pairwise
+# over a vector. The default is `promote_shape(+, shape.(args)...)`, which broadcasts
+# over the splatted argument *tuple* and then splats the result again; differentiating
+# a sum of thousands of summands makes that, rather than the differentiation, the whole
+# cost. `shape` is called on exactly the values the default would have called it on, so
+# the result is the same -- and `term` is hash-consed, so the term is the same object.
+function _sum_shape(terms)
+    sh = SymbolicUtils.shape(terms[1])
+    for i in 2:length(terms)
+        sh = SymbolicUtils.promote_shape(+, sh, SymbolicUtils.shape(terms[i]))
+    end
+    return sh
+end
+
+_sum_term(terms) = SymbolicUtils.term(+, terms...;
+    type=QCSym.SymbolicUtils.SymReal, shape=_sum_shape(terms))
+
+function kron_derivative(ex, v)
+    depends_on(ex, v) || return 0
+    exv = Symbolics.value(ex)
+    has_matop(exv) || return Symbolics.derivative(ex, v)
+    op = SymbolicUtils.operation(exv)
+    args = map(Symbolics.wrap, SymbolicUtils.arguments(exv))
+    if op === (+)
+        #return sum(kron_derivative(arg, v) for arg in args)
+        return _sum_term(Any[kron_derivative(arg, v) for arg in args])
+    elseif op === (*) || is_matop(op)
+        # product rule for multilinear ops, preserving argument order
+        terms = Any[]
+        for i in eachindex(args)
+            if !depends_on(args[i], v)
+                continue
+            end
+            di = kron_derivative(args[i], v)
+            isequal(di, 0) && continue
+            push!(terms, op(args[1:(i - 1)]..., di, args[(i + 1):end]...))
+        end
+        #return isempty(terms) ? 0 : sum(terms)
+        if isempty(terms)
+            return 0
+        elseif length(terms) == 1
+            return terms[1]
+        else
+            return _sum_term(terms)
+        end
+    elseif op === (^)
+        X, n = args
+        nval = const_integer(n)
+        if nval !== nothing && nval >= 1 && has_matop(Symbolics.value(X))
+            dX = kron_derivative(X, v)
+            isequal(dX, 0) && return 0
+            nval == 1 && return dX
+            # d(X^n) = Σ_{k=0}^{n-1} X^k ⊙ dX ⊙ X^(n-1-k)
+            terms = Any[]
+            for k in 0:(nval - 1)
+                t = k == 0        ? dX ⊙ X^(nval - 1) :
+                    k == nval - 1 ? X^(nval - 1) ⊙ dX :
+                                    X^k ⊙ dX ⊙ X^(nval - 1 - k)
+                push!(terms, t)
+            end
+            return sum(terms)
+        end
+        return Symbolics.Differential(v)(ex)
+    elseif op === (/)
+        N, den = args
+        if !has_matop(Symbolics.value(den))
+            dN, dden = kron_derivative(N, v), Symbolics.derivative(den, v)
+            terms = Any[]
+            isequal(dN, 0) || push!(terms, dN / den)
+            isequal(dden, 0) || push!(terms, -(dden / den^2) * N)
+            return isempty(terms) ? 0 : sum(terms)
+        end
+        return Symbolics.Differential(v)(ex)
+    else
+        return Symbolics.Differential(v)(ex)
+    end
+end
+
+
+
+
+
+# ⊗(a::QCSym.Gates.AbstractQuantumGate, b::QCSym.Gates.AbstractQuantumGate) = begin
+#     #out_shape = (a.shape[1]*b.shape[1], a.shape[2]*b.shape[2])
+#     _1 = length(a.shape[1])*length(b.shape[1])
+#     _2 = length(a.shape[2])*length(b.shape[2])
+#     out_shape = SymbolicUtils.ShapeVecT([1:_1,1:_2])
+#     #SymbolicUtils.term(⊗, a, b; shape=out_shape, type=SymbolicUtils.BasicSymbolicImpl.Term{SymbolicUtils.SymReal})
+#     #SymbolicUtils.term(⊗, a, b; shape=out_shape, type=QCSym.Gates._CMQGate{QCSym.BitsRegs.QBit})
+#     SymbolicUtils.term(⊗, a, b; shape = SymbolicUtils.SmallVec{UnitRange{Int64}, Vector{UnitRange{Int64}}}([1:1]), type=QCSym.Gates._CMQGate{QCSym.BitsRegs.QBit})
+# end
+
+# function ⊗(xs::AbstractVector{T}) where {T<:QCSym.Gates.AbstractGate}
+#     isempty(xs) && throw(ArgumentError("⊗ requires at least one matrix/gate"))
+#     # returned value matches r = SymbolicUtils.@rule  QCSym.:⊗(~~ys) => 1.0
+#     # Kronecker product of a single factor is the factor itself
+#     length(xs) == 1 && return only(xs)
+
+#     _1 = prod(length(x.shape[1]) for x in xs)
+#     _2 = prod(length(x.shape[2]) for x in xs)
+
+#     out_shape = SymbolicUtils.ShapeVecT([1:_1, 1:_2])
+
+#     return SymbolicUtils.term(
+#         ⊗,
+#         xs...;
+#         #shape = out_shape,
+#         shape = SymbolicUtils.SmallVec{UnitRange{Int64}, Vector{UnitRange{Int64}}}([1:1]), 
+#         type = QCSym.Gates._CMQGate{QCSym.BitsRegs.QBit},
+#     )
+# end
+
+# ⊗(a::SymbolicUtils.BasicSymbolic, b::QCSym.Gates.AbstractQuantumGate) = begin
+#     println("Ended up here")
+#     println(a.shape)
+#     println(b.shape)
+#     println(QCSym.SymbolicUtils.shape(a))
+
+#     _1 = length(a.shape[1])*length(b.shape[1])
+#     _2 = length(a.shape[2])*length(b.shape[2])
+#     out_shape = SymbolicUtils.ShapeVecT([1:_1,1:_2])
+#     #SymbolicUtils.term(⊗, a, b; shape=out_shape, type=SymbolicUtils.BasicSymbolicImpl.Term{SymbolicUtils.SymReal})
+#     #SymbolicUtils.term(⊗, a, b; shape=out_shape, type=QCSym.Gates._CMQGate{QCSym.BitsRegs.Bit})
+#     SymbolicUtils.term(⊗, a, b; shape=SymbolicUtils.SmallVec{UnitRange{Int64}, Vector{UnitRange{Int64}}}([1:1]), type=QCSym.Gates._CMQGate{QCSym.BitsRegs.Bit})
+# end
+
+# mul(a::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}, b::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}) = begin
+    
+#     @assert SymbolicUtils.symtype(a) == QCSym.Gates._CMQGate{QCSym.BitsRegs.QBit} || (SymbolicUtils.symtype(a) == QCSym.Gates._CMSMQGate{QCSym.BitsRegs.QBit}) "Gate types must be either _CMQGate or _CMSMQGate for basic multiplication, but got types a $(SymbolicUtils.symtype(a))"
+    
+#     @assert SymbolicUtils.symtype(b) == QCSym.Gates._CMQGate{QCSym.BitsRegs.QBit} || (SymbolicUtils.symtype(b) == QCSym.Gates._CMSMQGate{QCSym.BitsRegs.QBit}) "Gate types must be either _CMQGate or _CMSMQGate for basic multiplication, but got types b $(SymbolicUtils.symtype(b))"
+        
+    
+#     @assert a.shape == b.shape "Gate shapes must match for basic multiplication, but got shapes $(a.shape) and $(b.shape)"
+#     out_shape = SymbolicUtils.promote_shape(*, a.shape, b.shape)
+    
+#     #SymbolicUtils.term(mul, a, b; shape=out_shape, type=QCSym.Gates._CMSMQGate{QCSym.BitsRegs.QBit})
+#     SymbolicUtils.term(mul, a, b;shape=SymbolicUtils.SmallVec{UnitRange{Int64}, Vector{UnitRange{Int64}}}([1:1]), type=QCSym.Gates._CMSMQGate{QCSym.BitsRegs.QBit})
+# end
+
+# mul(a::AbstractVector{SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}}) = begin
+    
+#     for i in eachindex(a)
+#         @assert SymbolicUtils.symtype(a[i]) == QCSym.Gates._CMQGate{QCSym.BitsRegs.QBit} "Gate types must be either _CMQGate for basic multiplication, but got types a[$i] $(SymbolicUtils.symtype(a[i]))"
+#     end
+#     # for i in eachindex(a)
+#     #     @assert a[1].shape == a[i].shape "Gate shapes must match for basic multiplication, but got shapes $(a[1].shape) and $(a[i].shape)"
+#     # end    
+    
+#     out_shape = a[1].shape
+    
+#     #SymbolicUtils.term(mul, a...; shape=out_shape, type=QCSym.Gates._CMSMQGate{QCSym.BitsRegs.QBit})
+#     SymbolicUtils.term(mul, a...; shape=SymbolicUtils.SmallVec{UnitRange{Int64}, Vector{UnitRange{Int64}}}([1:1]), type=QCSym.Gates._CMSMQGate{QCSym.BitsRegs.QBit})
+# end
+
