@@ -3,7 +3,9 @@ function phi_single(x1, w)
 end
 function phi_double(x1, x2, w)
     #return w*(pi-x1)*(pi-x2)
-    return w*(QCSym.PI-x1)*(QCSym.PI-x2)
+    #return w*(QCSym.PI-x1)*(QCSym.PI-x2)
+    return w*(π-x1)*(π-x2) # ERROR: Differentiation with array expressions is not yet supported
+    #return w*(3.141592653589793-x1)*(3.141592653589793-x2)
 end
 
 function add_circuit_zzfeaturemap!(qc, qreg, num_layers, initial_step_id; for_back_config=(true, true))

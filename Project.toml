@@ -4,6 +4,7 @@ version = "0.1.0"
 authors = ["Oliver Ahrend <ahrend@mbd.rwth-aachen.de>"]
 
 [deps]
+AbstractTrees = "1520ce14-60c1-5f80-bbc7-55ef81b5835c"
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
@@ -25,6 +26,7 @@ Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
 SymJit = {rev = "main", url = "https://github.com/siravan/SymJit.jl"}
 
 [compat]
+AbstractTrees = "0.4.5"
 BenchmarkTools = "1.8.0"
 CSV = "0.10.16"
 DataFrames = "1.8.2"
