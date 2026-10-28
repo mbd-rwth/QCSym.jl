@@ -338,8 +338,10 @@ Base.:+(a::AbstractMatrix, b::LazyStep) = SumStep((a, b))
 SymbolicUtils.islike(a::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}, ::Type{Number}) = true
 
 # col_1 is linear, so kron_derivative's multilinear product rule differentiates
-# it correctly as the one-argument case: d(col_1(X)) = col_1(dX).
-is_matop(f) = f === (⊗) || f === (⊙) || f === (col_1)
+# it correctly as the one-argument case: d(col_1(X)) = col_1(dX). So is a GateOn term,
+# d(GateOn(n, qubits)(M)) = GateOn(n, qubits)(dM). Every placement is a different operator
+# value, hence the type test.
+is_matop(f) = f === (⊗) || f === (⊙) || f === (col_1) || f isa GateOn
 
 depends_on(ex, v) = begin
     if any(isequal(Symbolics.value(v)), Symbolics.get_variables(ex))
@@ -353,6 +355,22 @@ depends_on(ex, v) = begin
     else
         return false#isequal(ex, v)
     end
+end
+
+# Memoised depends_on over the DAG. Terms are hash-consed, so a shared subtree is the same
+# object; and on a chain (gcol2tree_chain) the unmemoised check walks the whole remaining
+# chain at every level, O(m^2) for m gates. A call depends on v if one of its arguments
+# does, which is what get_variables finds; leaves, and calls whose operation could carry v
+# itself (a Differential(v)), keep the original test.
+function _depends_on(ex, v, memo::IdDict)
+    exv = Symbolics.value(ex)
+    get!(memo, exv) do
+        if SymbolicUtils.iscall(exv) && SymbolicUtils.operation(exv) isa Union{Function, GateOn}
+            isequal(exv, v) || any(a -> _depends_on(a, v, memo), SymbolicUtils.arguments(exv))
+        else
+            depends_on(exv, v)
+        end
+    end::Bool
 end
 
 has_matop(ex) =
@@ -382,23 +400,31 @@ end
 _sum_term(terms) = SymbolicUtils.term(+, terms...;
     type=QCSym.SymbolicUtils.SymReal, shape=_sum_shape(terms))
 
-function kron_derivative(ex, v)
-    depends_on(ex, v) || return 0
+kron_derivative(ex, v) = _kron_derivative(ex, v, IdDict(), IdDict())
+
+# `dmemo` holds the derivative of every node already differentiated, so a subtree shared in
+# the DAG is differentiated once; `depmemo` holds the answers of _depends_on.
+_kron_derivative(ex, v, dmemo::IdDict, depmemo::IdDict) =
+    get!(() -> _kron_derivative_node(ex, v, dmemo, depmemo), dmemo, Symbolics.value(ex))
+
+function _kron_derivative_node(ex, v, dmemo::IdDict, depmemo::IdDict)
+    _depends_on(ex, v, depmemo) || return 0
     exv = Symbolics.value(ex)
     has_matop(exv) || return Symbolics.derivative(ex, v)
     op = SymbolicUtils.operation(exv)
     args = map(Symbolics.wrap, SymbolicUtils.arguments(exv))
+    deriv(x) = _kron_derivative(x, v, dmemo, depmemo)
     if op === (+)
         #return sum(kron_derivative(arg, v) for arg in args)
-        return _sum_term(Any[kron_derivative(arg, v) for arg in args])
+        return _sum_term(Any[deriv(arg) for arg in args])
     elseif op === (*) || is_matop(op)
         # product rule for multilinear ops, preserving argument order
         terms = Any[]
         for i in eachindex(args)
-            if !depends_on(args[i], v)
+            if !_depends_on(args[i], v, depmemo)
                 continue
             end
-            di = kron_derivative(args[i], v)
+            di = deriv(args[i])
             isequal(di, 0) && continue
             push!(terms, op(args[1:(i - 1)]..., di, args[(i + 1):end]...))
         end
@@ -414,7 +440,7 @@ function kron_derivative(ex, v)
         X, n = args
         nval = const_integer(n)
         if nval !== nothing && nval >= 1 && has_matop(Symbolics.value(X))
-            dX = kron_derivative(X, v)
+            dX = deriv(X)
             isequal(dX, 0) && return 0
             nval == 1 && return dX
             # d(X^n) = Σ_{k=0}^{n-1} X^k ⊙ dX ⊙ X^(n-1-k)
@@ -431,7 +457,7 @@ function kron_derivative(ex, v)
     elseif op === (/)
         N, den = args
         if !has_matop(Symbolics.value(den))
-            dN, dden = kron_derivative(N, v), Symbolics.derivative(den, v)
+            dN, dden = deriv(N), Symbolics.derivative(den, v)
             terms = Any[]
             isequal(dN, 0) || push!(terms, dN / den)
             isequal(dden, 0) || push!(terms, -(dden / den^2) * N)

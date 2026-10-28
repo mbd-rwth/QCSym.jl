@@ -573,3 +573,30 @@ function SWAP_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector
                                    0.0 0.0 0.0 1.0])
     return SWAP_Gate(base_gate)
 end
+
+struct CCX_Gate{T<:AbstractBit} <: AbstractMultiQubitQuantumGateNonParametric{T}
+    @insert_fields_AbstractQuantumGate()
+    @constructor_from_mutable_base(CCX_Gate, mutable_BaseQuantumGate_for_construction)
+
+end
+
+# Toffoli. There is no 2x2 decomposition, so it only works with gate-level trees
+# (Circuits.gcol2tree_chain); gcol2tree2 rejects it.
+function CCX_Gate_for_Circuit(;name_prefix::String="", qubits_t::AbstractVector{QBit}, qubits_c::AbstractVector{QBit}, step::Int, is_treat_numeric_only::Bool=false)
+    (length(qubits_t) == 1 && length(qubits_c) == 2) ||
+        throw(ArgumentError("CCX acts on one target and two controls"))
+    base_gate = mutable_BaseQuantumGate_for_construction(is_treat_numeric_only=is_treat_numeric_only,
+        name_prefix=name_prefix, name_short="CCX", qubits_t=qubits_t, qubits_c=qubits_c,
+        step=step, num_summands_decomposed=1)
+    # Controls are the two most significant bits. The matrix is symmetric in the two
+    # controls, so their order does not matter.
+    base_gate.matrix_numeric = StaticArrays.SMatrix{8,8,GateMatrixNumericType}([1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+                                0.0 1.0 0.0 0.0 0.0 0.0 0.0 0.0;
+                                0.0 0.0 1.0 0.0 0.0 0.0 0.0 0.0;
+                                0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0;
+                                0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0;
+                                0.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0;
+                                0.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0;
+                                0.0 0.0 0.0 0.0 0.0 0.0 1.0 0.0])
+    return CCX_Gate(base_gate)
+end

@@ -213,6 +213,7 @@ formed. The rewrite is exact, it just applies column 1 of each operation:
   * `(A ⊗ B)[:,1] == A[:,1] ⊗ B[:,1]`  (column 1 of a Kronecker product only uses
     column 1 of every factor)
   * `(A ⊙ B)[:,1] == A ⊙ B[:,1]`       (only the rightmost factor of a chain is reduced)
+  * `G[:,1] == G ⊙ |0…0⟩` for a `QCSym.GateOn` factor, which spans the whole register
 
 Leaves are wrapped in `QCSym.col_1`, which numerically takes the first column of a
 gate's 2x2 matrix.
@@ -234,6 +235,10 @@ function _first_column(expr)
         col_args = (args[1:end-1]..., _first_column(args[end]))
         return length(col_args) == 2 ? QCSym.:⊙(col_args...) :
                QCSym.SymbolicUtils.term(QCSym.:⊙, col_args...; type=QCSym.SymbolicUtils.SymReal)
+    elseif op isa QCSym.GateOn
+        # The first gate of a gcol2tree_chain acts on the full register, so its first column
+        # is the gate applied to |0…0⟩; the chain then keeps acting on a state vector.
+        return QCSym.:⊙(expr, QCSym.ket0(op.n))
     else
         # A parametric gate symbol such as P(λ) is a call, but still a leaf matrix.
         return QCSym.col_1(expr)
@@ -319,6 +324,12 @@ function gcol2tree2(gcol::GateCollection; prune_zeros::Bool=true, distribute::Bo
 
         sq_gates = [g for g in gates_at_step if g.num_qubits == 1]
         mq_gates = [g for g in gates_at_step if g.num_qubits == 2]
+        # A gate on more than two qubits would fall through both filters and vanish from
+        # the tree without a trace.
+        for g in gates_at_step
+            g.num_qubits > 2 && error("gcol2tree2 supports gates on one or two qubits, " *
+                                      "got $(g.name) on $(g.num_qubits); use gcol2tree_chain")
+        end
 
         sq_gates_sorted = _sort_by_glob_qbit_id(sq_gates)
         vec_filled_sq_gates = Vector{QCSym.Gates.AbstractGate}()

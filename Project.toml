@@ -23,8 +23,14 @@ SymJit = "04588a2d-d8a6-4b7e-8fea-48e77ed265f7"
 SymbolicUtils = "d1185830-fcd6-423d-90d6-eec64667417b"
 Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
 
+[weakdeps]
+LENS = "8098b85a-85fb-4954-9125-3ebea0cfa067"
+
 [sources]
 SymJit = {rev = "main", url = "https://github.com/siravan/SymJit.jl"}
+
+[extensions]
+QCSymLENSExt = "LENS"
 
 [compat]
 AbstractTrees = "0.4.5"
@@ -34,6 +40,7 @@ CxxWrap = "0.17.5"
 DataFrames = "1.8.2"
 InteractiveUtils = "1.11.0"
 Kronecker = "0.5.5"
+LENS = "0.1"
 LinearAlgebra = "1.12.0"
 LoopVectorization = "0.12.174"
 Plots = "1.41.6"

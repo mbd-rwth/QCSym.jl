@@ -45,6 +45,16 @@ end
 
 _is_foldable_op(f) = f === (⊗) || f === (⊙) || f === (col_1) || f === (+)
 
+# Memoised "does this subtree contain a GateOn factor?". Such a subtree is a list of gates
+# for Simulation.lower_state, and folding it into one number would hide them.
+function _has_gateon(ex, memo::IdDict)
+    get!(memo, ex) do
+        SymbolicUtils.iscall(ex) &&
+            (SymbolicUtils.operation(ex) isa GateOn ||
+             any(a -> _has_gateon(a, memo), SymbolicUtils.arguments(ex)))
+    end::Bool
+end
+
 """
     fold_constants(ex) -> folded
 
@@ -62,15 +72,21 @@ Run this last: after `kron_derivative` (which rewrites the tree and introduces t
 differentiated gate leaves) and after the final substitution of numeric gate matrices.
 Nothing is folded if variables are still present, so running it too early is a no-op
 rather than an error.
+
+Subtrees containing `GateOn` factors (see `Circuits.gcol2tree_chain`) are left as they
+are, apart from constants inside a gate's matrix: they are lowered gate by gate instead
+(`Simulation.lower_state`), which evaluates constant gates once by itself.
 """
 function fold_constants(ex)
     hasvars = IdDict()
+    hasgateon = IdDict()
     folded  = IdDict()
 
     function fold(e)
         SymbolicUtils.iscall(e) || return e
         get!(folded, e) do
-            if !_has_vars(e, hasvars) && _is_foldable_op(SymbolicUtils.operation(e))
+            if !_has_vars(e, hasvars) && _is_foldable_op(SymbolicUtils.operation(e)) &&
+               !_has_gateon(e, hasgateon)
                 return SymbolicUtils.Const{SymbolicUtils.SymReal}(eval_numeric(e))
             end
             args = SymbolicUtils.arguments(e)

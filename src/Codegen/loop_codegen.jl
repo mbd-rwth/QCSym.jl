@@ -152,6 +152,10 @@ function _build_node!(dag::Dag, x)
     if xu isa SymbolicUtils.BasicSymbolic
         if SymbolicUtils.iscall(xu)
             f = SymbolicUtils.operation(xu)
+            # _infer_shape would take a GateOn node for a scalar and emit wrong code.
+            f isa QCSym.GateOn && throw(ArgumentError(
+                "build_function_loops does not support GateOn terms; lower the tree with " *
+                "QCSym.Simulation.lower_state and run it with QCSym.Simulation.evolve! instead"))
             rawargs = collect(SymbolicUtils.arguments(xu))
             # `array_literal`'s first argument is a size tuple, not a value: it is
             # baked into the node's shape instead of becoming a node of its own.

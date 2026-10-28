@@ -1,0 +1,18 @@
+# Environment for the LENS extension tests (test/testrunner.jl lens_ext) and benchmark.
+# LENS.jl is not published yet, so both packages come from local paths:
+#   julia --project=test/LENSExt -e 'using Pkg; Pkg.instantiate()'
+#   julia --project=test/LENSExt test/testrunner.jl lens_ext
+
+[deps]
+LENS = "8098b85a-85fb-4954-9125-3ebea0cfa067"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+QCSym = "0e9590fd-0aff-4199-aa6a-f7e009366054"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+SymbolicUtils = "d1185830-fcd6-423d-90d6-eec64667417b"
+Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[sources]
+LENS = {path = "../../../LENS.jl"}
+QCSym = {path = "../.."}

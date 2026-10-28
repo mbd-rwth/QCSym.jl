@@ -33,6 +33,8 @@ function get_num_cbits(qc::QuantumCircuit)
      return n
 end
 
+include("./gate_chain.jl")
+
 Base.show(io::IO, qc::QuantumCircuit) = begin
     println(io, "Quantum Circuit: ", qc.name)
     println(io, "  Number of qubits: ", get_num_qubits(qc))

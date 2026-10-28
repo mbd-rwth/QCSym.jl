@@ -13,6 +13,7 @@ include("./Circuits.jl")
 include("./States.jl")
 include("./Symbolic_Tensor_Algebra.jl")
 include("./Codegen.jl")
+include("./Simulation.jl")
 
 include("./Precompile.jl")
 end
