@@ -4,6 +4,7 @@
 import LinearAlgebra
 
 """
+DEPRECATED
     assemble_unitary(qc::QuantumCircuit) -> Matrix{Symbolics.Num}
 
 Assembles the full symbolic unitary matrix of the quantum circuit.
