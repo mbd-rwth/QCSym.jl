@@ -36,6 +36,10 @@ end
     return SymbolicUtils.term(⊗, xs...; type=SymbolicUtils.SymReal)
 end
 
+⊗(x1::Complex{Symbolics.Num}, x2::Symbolics.Num) = begin
+    return SymbolicUtils.term(⊗, x1, x2; type=SymbolicUtils.SymReal)
+end
+
 # LinearAlgebra.kron on StaticArrays.StaticArray operands returns another
 # StaticArray, fully unrolled at compile time. That is a big win while the
 # operands are small (single-qubit 2x2 factors), but the *output* dimension of
