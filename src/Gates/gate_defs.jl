@@ -60,11 +60,11 @@ struct I_Gate_Filler{T<:Int} <: AbstractSingleQubitQuantumGateNonParametric{T}
     qbit_glob_id::T
     shape::SymbolicUtils.ShapeT
     symbol::SymbolicUtils.BasicSymbolicImpl.var"typeof(BasicSymbolicImpl)"{SymbolicUtils.SymReal}
-    matrix_numeric::StaticArrays.SMatrix
+    matrix_numeric::StaticArrays.StaticArrays.SMatrix{2,2,GateMatrixNumericType,4}
     #@insert_fields_AbstractQuantumGate()
     #@constructor_from_mutable_base(I_Gate, mutable_BaseQuantumGate_for_construction)
     #I_Gate_Filler(qbit_glob_id::T) where {T<:Int} = new{T}(qbit_glob_id, SymbolicUtils.ShapeVecT([1:2,1:2]), SymbolicUtils.one_of_vartype(SymbolicUtils.SymReal), [1 0; 0 1])
-    I_Gate_Filler(qbit_glob_id::T) where {T<:Int} = new{T}(qbit_glob_id, SymbolicUtils.ShapeVecT([1:2,1:2]), eval(:(Symbolics.@variables($(Symbol("I"))::Complex{Real})[1])), StaticArrays.SMatrix{2,2,GateMatrixNumericType}([1 0; 0 1]))
+    I_Gate_Filler(qbit_glob_id::T) where {T<:Int} = new{T}(qbit_glob_id, SymbolicUtils.ShapeVecT([1:2,1:2]), eval(:(Symbolics.@variables($(Symbol("I"))::Complex{Real})[1])), StaticArrays.StaticArrays.SMatrix{2,2,GateMatrixNumericType}([1 0; 0 1]))
 end
 
 Base.show(io::IO, gate::I_Gate_Filler) = begin
