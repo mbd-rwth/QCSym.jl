@@ -77,11 +77,16 @@ function main(; num_qubits::Int, num_layers::Int, num_samples::Int,
     outputs = zeros(ComplexF64, 2^num_qubits, num_samples)
     doutputs = zeros(ComplexF64, 2^num_qubits, num_samples)
     # the first call compiles the generated functions, so time it on its own
-    t_first_call = @timed QCSym.Simulation.evolve(dlowered, inputs[:, 1]; backend=backend)
+    t_first_call = @timed begin 
+        QCSym.Simulation.evolve(lowered, inputs[:, 1]; backend=backend)
+        QCSym.Simulation.evolve(dlowered, inputs[:, 1]; backend=backend)
+    end
     t_sampling = @timed begin
-        QCSym.Simulation.evolve!(outputs, lowered, inputs; backend=backend)
+        #QCSym.Simulation.evolve!(outputs, lowered, inputs; backend=backend)
         QCSym.Simulation.evolve!(doutputs, dlowered, inputs; backend=backend)
     end
+
+    #println(dexprtree)
 
     return Dict("build_exprtree" => t_build_exprtree, "derivative" => t_derivative,
                 "convert_exprtree" => t_convert_exprtree, "lowering" => t_lowering,
@@ -90,7 +95,24 @@ function main(; num_qubits::Int, num_layers::Int, num_samples::Int,
                 "inputs" => inputs, "outputs" => outputs, "doutputs" => doutputs)
 end
 
-out = main(num_qubits=4, num_layers=1, num_samples=1000)
+out = main(num_qubits=2, num_layers=1, num_samples=100)
+out = main(num_qubits=2, num_layers=2, num_samples=100)
+out = main(num_qubits=3, num_layers=3, num_samples=100)
+out = main(num_qubits=4, num_layers=4, num_samples=100)
+out = main(num_qubits=4, num_layers=4, num_samples=100)
+out = main(num_qubits=5, num_layers=5, num_samples=100)
+out = main(num_qubits=5, num_layers=7, num_samples=100)
+# out = main(num_qubits=5, num_layers=7, num_samples=10000)
+out = main(num_qubits=6, num_layers=6, num_samples=100)
+out = main(num_qubits=7, num_layers=7, num_samples=100)
+# out = main(num_qubits=7, num_layers=7, num_samples=10000)
+out = main(num_qubits=8, num_layers=8, num_samples=100)
+out = main(num_qubits=9, num_layers=9, num_samples=100)
+# out = main(num_qubits=9, num_layers=9, num_samples=10000)
+out = main(num_qubits=9, num_layers=2, num_samples=100)
+out = main(num_qubits=9, num_layers=2, num_samples=10000)
+# out = main(num_qubits=10, num_layers=10, num_samples=100)
+
 println(out["dlowered"])
 for k in ["build_exprtree", "derivative", "convert_exprtree", "lowering", "first_call", "sampling"]
     println(rpad(k, 17), round(out[k].time; digits=4), " s")

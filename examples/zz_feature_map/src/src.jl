@@ -61,6 +61,7 @@ function add_circuit_zzfeaturemap!(qc, qreg, num_layers, initial_step_id; for_ba
             for i in 1:num_qubits
                 QCSym.Circuits.add_gate(qc, QCSym.Gates.H_Gate, qubits_t=[qreg[i]], step=step_id, is_treat_numeric_only=false)
             end
+            step_id += 1
         end
     end
     #################
