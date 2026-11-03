@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: QCSym.jl
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Oliver Ahrend
+    family-names: Ahrend
+    email: ahrend@mbd.rwth-aachen.de
+    affiliation: 'MBD, RWTH Aachen University'
+    orcid: 'https://orcid.org/0009-0008-8599-015X'
+  - given-names: Julia
+    family-names: Kowalski
+    email: kowalski@mbd.rwth-aachen.de
+    affiliation: 'MBD, RWTH Aachen University'
+    orcid: 'https://orcid.org/0000-0003-4123-5896'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.21496368
+repository-code: 'https://github.com/mbd-rwth/QCSym.jl.git'
+url: 'https://github.com/mbd-rwth/QCSym.jl'
+abstract: >-
+  A Julia package for Symbolic Quantum Circuits
+keywords:
+  - quantum-computing
+  - symbolic computing
+license: MIT
+version: pre-release
+date-released: '2026-02-27'
