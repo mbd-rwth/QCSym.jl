@@ -9,6 +9,9 @@ import QCSym
 isdefined(Main, :ZZHelpers) || include(joinpath(@__DIR__, "zz_helpers.jl"))
 import .ZZHelpers
 
+# outside the testset, so that @allocated measures the call and not the code around it
+_allocated_fill(ws, l, p) = @allocated QCSym.Simulation._fill_values!(ws, l, p)
+
 @testset verbose=true "Simulation Tests" begin
     println("Running simulation tests...")
     C = QCSym.Circuits
@@ -99,6 +102,14 @@ import .ZZHelpers
         @test S.evolve(ldψ, p) ≈ QCSym.eval_numeric(SymbolicUtils.substitute(dψ1, vals))
         @test S.evolve(ldψ, p) ≈ S.evolve(S.lower_state(dψ1, params), p)
 
+        # the gate matrices are evaluated in place, without allocating
+        for l in (lψ, ldψ)
+            @test l.nvalues == 4 * length(l.param_slots)
+            ws = S._Workspace(l)
+            S._fill_values!(ws, l, p)
+            @test _allocated_fill(ws, l, p) == 0
+        end
+
         # parameter sets as columns, split over tasks
         P = rand(length(params), 6)
         out = S.evolve(ldψ, P; ntasks=4)
@@ -165,6 +176,21 @@ import .ZZHelpers
         @test QCSym.count_nodes(folded) == QCSym.count_nodes(ψn)
         @test S.evolve(S.lower_state(folded, []), Float64[]) ≈ dense_unitary(qc)[:, 1]
         @test_throws ArgumentError QCSym.Codegen.build_function_loops(ψn, [])
+    end
+
+    @testset "gate matrices in place and out of place" begin
+        # Matrices that do not scalarize to their entries (here: a wrong entry count) are
+        # evaluated out of place, nvalues == -1; both give the same state.
+        θ = Symbolics.variable(:θ)
+        M = [cos(θ) -sin(θ); sin(θ) cos(θ)]
+        ket = QCSym.BasisKet(1, 0)
+        for (nentries, nvalues) in ((4, 4), (3, -1))
+            f, nv = S._build_matrix_values(Any[M], nentries, [θ])
+            @test nv == nvalues
+            l = S.LoweredState(1, Any[θ], [S.Summand(0, [S.GateRef([1], 1)], 1)], [ket], [2],
+                               Union{Nothing, Matrix{ComplexF64}}[nothing], [1], f, nv, nothing, 0)
+            @test S.evolve(l, [0.3]) ≈ [cos(0.3), sin(0.3)]
+        end
     end
 
     @testset "LENSBackend without LENS" begin

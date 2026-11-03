@@ -39,9 +39,15 @@ struct LoweredState{FM, FC}
     # matrix size of every slot, and the value of the constant ones (nothing if parametric)
     slot_dims::Vector{Int}
     const_matrices::Vector{Union{Nothing, Matrix{ComplexF64}}}
-    # the slots `matrix_values(p)` returns, in its output order
+    # the slots `matrix_values` evaluates, in its output order
     param_slots::Vector{Int}
+    # Either in place, `matrix_values(values, p)` writing the entries of all parametric slots
+    # into `values` (column-major, one slot after the other, `nvalues` in all), which allocates
+    # nothing, or (nvalues == -1) out of place, `matrix_values(p)` returning the matrices, for
+    # matrices that cannot be scalarized.
     matrix_values::FM
+    nvalues::Int
+    # in place, `coeff_values(coeffs, p)`
     coeff_values::FC
     ncoeffs::Int
 end
@@ -141,12 +147,13 @@ function lower_state(tree, params; gcol=nothing)
             push!(const_matrices, A)
         end
     end
-    matrix_values = isempty(param_slots) ? nothing :
-                    _build_values(Any[slot_exprs[s] for s in param_slots], params)
-    coeff_values = isempty(coeff_exprs) ? nothing : _build_values(coeff_exprs, params)
+    matrix_values, nvalues = isempty(param_slots) ? (nothing, 0) :
+        _build_matrix_values(Any[slot_exprs[s] for s in param_slots],
+                             sum(slot_dims[s]^2 for s in param_slots), params)
+    coeff_values = isempty(coeff_exprs) ? nothing : _build_values!(coeff_exprs, params)
 
     return LoweredState(n, collect(Any, params), summands, kets, slot_dims, const_matrices,
-                        param_slots, matrix_values, coeff_values, length(coeff_exprs))
+                        param_slots, matrix_values, nvalues, coeff_values, length(coeff_exprs))
 end
 
 # The out-of-place function of `build_function`: called with a parameter vector, it returns
@@ -154,6 +161,24 @@ end
 function _build_values(exprs, params)
     f = Symbolics.build_function(exprs, params; expression=Val{false})
     return f isa Tuple ? first(f) : f
+end
+
+# The in-place function of `build_function` for scalar `exprs`: f(out, p) writes their values
+# into `out`.
+_build_values!(exprs, params) = last(Symbolics.build_function(exprs, params; expression=Val{false}))
+
+# The function evaluating the parametric slot matrices `exprs`, `nentries` entries in all, and
+# the length of the values vector it writes: in place on their scalarized entries, or out of
+# place (-1) if they do not scalarize to that many entries.
+function _build_matrix_values(exprs, nentries, params)
+    entries = try
+        Any[e for M in exprs for e in vec(Symbolics.scalarize(M))]
+    catch
+        nothing
+    end
+    entries !== nothing && length(entries) == nentries &&
+        return _build_values!(entries, params), nentries
+    return _build_values(exprs, params), -1
 end
 
 # --- expansion into gate chains -----------------------------------------------------

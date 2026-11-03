@@ -280,10 +280,16 @@ end
 gp_classify(gp::GPEmulator, Xs; threshold=0.5) = Int.(gp_m(gp, Xs) .> threshold)
 
 # β, σ² and the profile log-likelihood for fixed kernel parameters; nothing if R + nugget*I
-# is not positive definite
-function gp_fit(kernel, X, y, params, nugget; R=kernel(X, X; params...))
+# is not positive definite. R + nugget*I is factorized in place, in a new matrix or in
+# `buffer`, a matrix of the size of R, which the GPEmulator then refers to.
+function gp_fit(kernel, X, y, params, nugget; R=kernel(X, X; params...), buffer=nothing)
     n = length(y)
-    F = LinearAlgebra.cholesky(LinearAlgebra.Symmetric(R + nugget * LinearAlgebra.I); check=false)
+    A = buffer === nothing ? similar(R, Float64) : buffer
+    copyto!(A, R)
+    for i in 1:n
+        A[i, i] += nugget
+    end
+    F = LinearAlgebra.cholesky!(LinearAlgebra.Symmetric(A); check=false)
     LinearAlgebra.issuccess(F) || return nothing
     H = gp_h(X)
     β = gp_beta(H, F, y)

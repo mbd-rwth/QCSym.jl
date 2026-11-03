@@ -40,8 +40,8 @@ include(joinpath(@__DIR__, "..", "GP_coffe_vs_nap.jl"))
 #################
 # Settings
 #################
-const LAYERS = [1, 2, 3]
-const N_SAMPLES = 2^14             # Sobol points are best balanced for powers of 2
+const LAYERS = [1, 2, 3, 4, 5, 6]
+const N_SAMPLES = 2^20             # Sobol points are best balanced for powers of 2
 const SAMPLER = "Sobol"
 # Bounds of the weights: a number for all of them, a vector with one entry per weight (in the
 # order of the CSV columns), or a Dict from the number of layers to either.
@@ -102,6 +102,7 @@ struct Worker
     Gte::Matrix{ComplexF64}       # and of the training with the test states
     R::Matrix{Float64}            # |Gtr|², the correlations of the training inputs
     r::Matrix{Float64}            # |Gte|², those of the training with the test inputs
+    F::Matrix{Float64}            # the Cholesky factorization of R + nugget*I
 end
 
 function Worker(k::ZZFeatureMapKernel, n_train, n_test)
@@ -109,7 +110,7 @@ function Worker(k::ZZFeatureMapKernel, n_train, n_test)
     return Worker(zeros(n_params, n_train), zeros(n_params, n_test),
                   zeros(ComplexF64, D, n_train), zeros(ComplexF64, D, n_test),
                   zeros(ComplexF64, n_train, n_train), zeros(ComplexF64, n_train, n_test),
-                  zeros(n_train, n_train), zeros(n_train, n_test))
+                  zeros(n_train, n_train), zeros(n_train, n_test), zeros(n_train, n_train))
 end
 
 # The GP with the weights η and its accuracies, on the calling thread only; nothing if
@@ -125,7 +126,7 @@ function evaluate!(w::Worker, k::ZZFeatureMapKernel, η, data)
     w.R .= abs2.(w.Gtr)
     LinearAlgebra.copytri!(w.R, 'U')
     w.r .= abs2.(w.Gte)
-    gp = gp_fit(k, data.Xtr, data.ytr, kernel_params(k, η), NUGGET; R=w.R)
+    gp = gp_fit(k, data.Xtr, data.ytr, kernel_params(k, η), NUGGET; R=w.R, buffer=w.F)
     gp === nothing && return nothing
     # the predictive mean of the inputs whose correlations with the training inputs are r
     accuracy(X, r, y) = sum((gp_m(gp, X; r=r) .> 0.5) .== (y .== 1)) / length(y)
