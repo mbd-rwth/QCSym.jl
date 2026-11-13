@@ -41,7 +41,7 @@ include(joinpath(@__DIR__, "..", "GP_coffe_vs_nap.jl"))
 # Settings
 #################
 const LAYERS = [1, 2, 3, 4, 5, 6]
-const N_SAMPLES = 2^20             # Sobol points are best balanced for powers of 2
+const N_SAMPLES = 2^22             # Sobol points are best balanced for powers of 2
 const SAMPLER = "Sobol"
 # Bounds of the weights: a number for all of them, a vector with one entry per weight (in the
 # order of the CSV columns), or a Dict from the number of layers to either.

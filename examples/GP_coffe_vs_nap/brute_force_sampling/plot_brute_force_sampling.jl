@@ -78,7 +78,7 @@ Plots.default(
     foreground_color_guide=INK_SECONDARY, foreground_color_title=INK,
     foreground_color_grid=GRID, gridalpha=1.0, gridlinewidth=0.5, framestyle=:axes,
     foreground_color_legend=nothing, background_color_legend=nothing,
-    titlefontsize=10, guidefontsize=9, tickfontsize=8, legendfontsize=9,
+    titlefontsize=11, guidefontsize=10, tickfontsize=9, legendfontsize=10,
     linewidth=2, markersize=4.5, markerstrokewidth=1.5, markerstrokecolor=SURFACE, dpi=150,
 )
 
